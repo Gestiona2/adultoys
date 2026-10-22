@@ -21,6 +21,9 @@
 }
 
 :root {
+  /* Los controles nativos (listas de select, barras de desplazamiento,
+     calendario) se dibujan en oscuro, igual que el sitio. */
+  color-scheme: dark;
   --bg: #07040d;
   --bg-2: #0a0612;
   --superficie: #100b1a;
@@ -116,6 +119,9 @@ p { color: var(--texto-suave); }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 button, input, select, textarea { font: inherit; color: inherit; }
+/* La lista desplegable la pinta el sistema: sin esto, en Windows y Linux sale
+   blanca con la letra clara del sitio y no se lee. */
+option, optgroup { background-color: #171022; color: #f6f2fb; }
 button { cursor: pointer; background: none; border: 0; }
 ul, ol { list-style: none; }
 
