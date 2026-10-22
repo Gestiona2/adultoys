@@ -38,6 +38,10 @@ const urlCanonica = new URL(Astro.url.pathname, Astro.site ?? "https://adultoyss
 const imagenSocial = new URL(imagen ?? `${base}img/compartir-adultoyss.jpg`, urlCanonica);
 
 const redes = config.redes.filter((red) => red.url).map((red) => red.url);
+// Punto de recogida que se muestra en el pedido. El mapa busca por dirección:
+// las coordenadas de config.json todavía son aproximadas.
+const punto = config.sedes[0];
+const mapaPunto = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(punto.direccion)}`;
 
 const datosEstructurados = {
   "@context": "https://schema.org",
@@ -147,6 +151,9 @@ const datosEstructurados = {
       aria-label="Carrito de compras"
       aria-hidden="true"
       data-whatsapp={config.whatsapp}
+      data-punto-nombre={`C.C. ${punto.nombre}`}
+      data-punto-direccion={punto.direccion}
+      data-punto-mapa={mapaPunto}
       hidden
     >
       <header class="carrito-cabeza">

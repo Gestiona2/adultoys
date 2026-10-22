@@ -38,6 +38,11 @@ export function montarCarrito() {
 
   const base = document.documentElement.dataset.base || "/";
   const whatsapp = panel.dataset.whatsapp || "";
+  const punto = {
+    nombre: panel.dataset.puntoNombre || "",
+    direccion: panel.dataset.puntoDireccion || "",
+    mapa: panel.dataset.puntoMapa || "",
+  };
 
   const fondo = document.getElementById("carritoFondo");
   const barra = document.getElementById("barraPago");
@@ -123,6 +128,13 @@ export function montarCarrito() {
             </select>
           </label>
 
+          <div class="carrito-punto" data-punto${(previos.entrega || "Envío a domicilio") === "Recogida en punto" ? "" : " hidden"}>
+            <strong>Punto de recogida</strong>
+            <span>${escapar(punto.direccion)}</span>
+            ${punto.mapa ? `<a href="${escapar(punto.mapa)}" target="_blank" rel="noopener">Ver en Google Maps <span aria-hidden="true">↗</span></a>` : ""}
+            <small>Te avisamos por WhatsApp cuando tu pedido esté listo para recoger.</small>
+          </div>
+
           <label>Nombre y apellido
             <input name="nombre" required autocomplete="name" placeholder="Ana Gómez" value="${escapar(previos.nombre || "")}">
           </label>
@@ -191,6 +203,8 @@ export function montarCarrito() {
     campoEntrega?.addEventListener("change", () => {
       const recoge = campoEntrega.value === "Recogida en punto";
       if (bloqueDomicilio) bloqueDomicilio.hidden = recoge;
+      const bloquePunto = formulario.querySelector("[data-punto]");
+      if (bloquePunto) bloquePunto.hidden = !recoge;
       const direccion = formulario.querySelector('[name="direccion"]');
       if (direccion) direccion.required = !recoge;
     });
