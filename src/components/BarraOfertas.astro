@@ -1,0 +1,22 @@
+---
+/**
+ * Encabezado de la seccion de ofertas. Solo aparece si hay productos con
+ * descuento real.
+ */
+import home from "../datos/home.json";
+import Icono from "./Icono.astro";
+interface Props { cantidad: number; enlace?: boolean }
+const { cantidad, enlace = true } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<div class="barra-ofertas">
+  <span class="barra-ofertas-icono"><Icono nombre="fuego" tamano={20} /></span>
+  <div>
+    <h2>{home.ofertas.titulo}</h2>
+    <p>{cantidad} {home.ofertas.texto}</p>
+  </div>
+  {enlace && (
+    <a class="barra-ofertas-enlace" href={`${base}ofertas`.replace(/\/{2,}/g, "/")}>Ver todas →</a>
+  )}
+</div>

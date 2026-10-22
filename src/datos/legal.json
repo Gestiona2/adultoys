@@ -1,0 +1,140 @@
+{
+  "_comentario": "Textos legales redactados para el sitio nuevo. Antes de publicar, el dueno debe revisarlos con su abogado y completar NIT, razon social y horario. No se copiaron los textos de Odoo.",
+  "actualizado": "2026-10-21",
+  "privacidad": {
+    "titulo": "Política de privacidad",
+    "entrada": "Esta política explica qué datos recogemos cuando usas el sitio o haces un pedido, para qué los usamos y cómo puedes ejercer tus derechos.",
+    "secciones": [
+      {
+        "titulo": "Quiénes somos",
+        "texto": "Adultoyss es una tienda erótica ubicada en C.C. Milan Plaza, Tocancipá, Cundinamarca, Colombia. Puedes contactarnos por WhatsApp al +57 310 213 0278 o por correo a adultoyssexshopweb@outlook.com."
+      },
+      {
+        "titulo": "Qué datos recogemos",
+        "texto": "Cuando haces un pedido recogemos tu nombre, número de teléfono, dirección de entrega, ciudad, barrio e indicaciones para la entrega. También podemos recibir el detalle de los productos que pediste y tus preferencias de pago. No pedimos datos sensibles, documentos ni información financiera completa."
+      },
+      {
+        "titulo": "Para qué los usamos",
+        "texto": "Usamos tus datos para procesar y entregar tu pedido, confirmar disponibilidad, coordinar el pago, atender cambios o devoluciones y responder tus preguntas. Si nos autorizas, también podemos enviarte novedades y promociones por WhatsApp."
+      },
+      {
+        "titulo": "Con quién los compartimos",
+        "texto": "Solo compartimos lo necesario con la empresa transportadora que entrega el pedido y con la pasarela de pago cuando aplique. No vendemos, alquilamos ni cedemos tus datos a terceros para publicidad."
+      },
+      {
+        "titulo": "Cuánto tiempo los conservamos",
+        "texto": "Conservamos los datos del pedido durante el tiempo necesario para atender garantías, devoluciones y obligaciones contables o legales. Después los eliminamos o anonimizamos."
+      },
+      {
+        "titulo": "Tus derechos",
+        "texto": "Como titular de los datos puedes conocer, actualizar, rectificar y solicitar la eliminación de tu información, así como revocar la autorización para fines publicitarios. Escríbenos a adultoyssexshopweb@outlook.com o por WhatsApp y responderemos en los plazos de la Ley 1581 de 2012."
+      },
+      {
+        "titulo": "Cookies y almacenamiento del navegador",
+        "texto": "El sitio guarda en tu navegador el carrito, tus favoritos y los pedidos que enviaste desde este dispositivo. Esa información no viaja a nuestros servidores hasta que decides enviar el pedido por WhatsApp. No usamos cookies publicitarias propias."
+      },
+      {
+        "titulo": "Menores de edad",
+        "texto": "Este sitio es exclusivo para mayores de 18 años. No recogemos intencionalmente datos de menores. Si detectamos un registro o pedido de un menor, lo cancelamos y eliminamos la información."
+      }
+    ]
+  },
+  "datos": {
+    "titulo": "Autorización de tratamiento de datos",
+    "entrada": "Al enviar tu pedido por WhatsApp autorizas a Adultoyss a tratar tus datos personales para las finalidades descritas en la política de privacidad.",
+    "secciones": [
+      {
+        "titulo": "Autorización",
+        "texto": "Autorizas de manera libre, previa, expresa e informada el tratamiento de tu nombre, teléfono, dirección y datos del pedido para gestionar la compra, la entrega, el pago, las garantías y la atención posventa."
+      },
+      {
+        "titulo": "Finalidades opcionales",
+        "texto": "El envío de promociones y novedades es opcional. Puedes decirnos en cualquier momento que no quieres recibirlas y dejaremos de enviarlas, sin afectar tu compra."
+      },
+      {
+        "titulo": "Canales para ejercer tus derechos",
+        "texto": "Puedes solicitar el acceso, la actualización, la rectificación o la supresión de tus datos escribiendo a adultoyssexshopweb@outlook.com o al WhatsApp +57 310 213 0278. También puedes presentar una reclamación ante la Superintendencia de Industria y Comercio."
+      },
+      {
+        "titulo": "Vigencia",
+        "texto": "Esta autorización rige desde el momento en que envías el pedido y durante el tiempo en que se conserven los datos según la política de privacidad."
+      }
+    ]
+  },
+  "terminos": {
+    "titulo": "Términos y condiciones",
+    "entrada": "Estos términos aplican al uso del sitio y a las compras realizadas con Adultoyss.",
+    "secciones": [
+      {
+        "titulo": "Edad mínima",
+        "texto": "El sitio y los productos están dirigidos exclusivamente a personas mayores de 18 años. Al navegar o comprar confirmas que cumples esa edad y que tienes capacidad legal para contratar."
+      },
+      {
+        "titulo": "Productos y precios",
+        "texto": "Los precios se expresan en pesos colombianos (COP) e incluyen los impuestos aplicables. La disponibilidad se confirma por WhatsApp antes de despachar. Si un producto se agota después de tu pedido, te ofrecemos un reemplazo o la devolución del dinero."
+      },
+      {
+        "titulo": "Cómo se confirma un pedido",
+        "texto": "El sitio arma el pedido y abre WhatsApp con el resumen. La compra queda confirmada cuando respondemos por ese canal, verificamos disponibilidad y acordamos el pago y la entrega. El pedido no se despacha sin confirmación."
+      },
+      {
+        "titulo": "Pagos",
+        "texto": "Aceptamos pago contraentrega en efectivo, transferencias por Nequi, Daviplata o entidades bancarias, y los medios que acordemos por WhatsApp. No solicitamos pagos por canales distintos a los oficiales publicados en el sitio."
+      },
+      {
+        "titulo": "Envíos",
+        "texto": "El envío estándar es gratis a toda Colombia y tarda entre 2 y 3 días hábiles después de la confirmación. En zonas de difícil acceso puede aplicar un costo adicional que se informa antes de despachar. El empaque es neutro y no revela el contenido."
+      },
+      {
+        "titulo": "Cambios y devoluciones",
+        "texto": "Tienes 30 días para reportar un producto defectuoso, incompleto o diferente al pedido. Por razones de higiene, los productos íntimos usados o abiertos no admiten cambio por insatisfacción. Si el producto llegó defectuoso o hubo un error nuestro, asumimos el costo de la reposición o devolución."
+      },
+      {
+        "titulo": "Uso responsable",
+        "texto": "Los productos deben usarse según las instrucciones del fabricante y las prácticas de higiene recomendadas. La información del sitio es orientativa y no reemplaza la consulta con un profesional de la salud. El uso de cada producto es responsabilidad de la persona adulta que lo adquiere."
+      },
+      {
+        "titulo": "Propiedad intelectual",
+        "texto": "Las marcas, textos, fotografías y demás contenidos del sitio pertenecen a sus titulares. No se permite su reproducción sin autorización."
+      },
+      {
+        "titulo": "Ley aplicable",
+        "texto": "Estos términos se rigen por las leyes de la República de Colombia. Cualquier controversia se resolverá primero por acuerdo directo y, si no es posible, ante las autoridades competentes."
+      }
+    ]
+  },
+  "envios": {
+    "titulo": "Envíos y devoluciones",
+    "entrada": "Todo lo que necesitas saber antes y después de recibir tu pedido.",
+    "secciones": [
+      {
+        "titulo": "Cobertura y tiempos",
+        "texto": "Enviamos a toda Colombia. El tiempo estimado es de 2 a 3 días hábiles después de confirmar el pedido y el pago. En temporadas altas o zonas de difícil acceso el tiempo puede aumentar; te avisamos por WhatsApp."
+      },
+      {
+        "titulo": "Costo del envío",
+        "texto": "El envío estándar es gratis. Si tu dirección está en una zona de difícil acceso, la transportadora puede cobrar un adicional que te informamos antes de despachar. No despachamos sin tu aprobación."
+      },
+      {
+        "titulo": "Empaque discreto",
+        "texto": "Tu pedido llega en una caja o bolsa neutra, sin logos, sin nombres de productos y sin indicios del contenido. La guía y los datos de remitente no revelan que es una tienda erótica."
+      },
+      {
+        "titulo": "Seguimiento",
+        "texto": "Cuando el pedido sale te enviamos el número de guía por WhatsApp. Si la transportadora reporta una novedad, te escribimos para resolverla contigo."
+      },
+      {
+        "titulo": "Cambios por insatisfacción",
+        "texto": "Por higiene, los productos íntimos deben estar sin abrir, sin usar y en su empaque original para un cambio por insatisfacción. Tienes 30 días desde la entrega para reportarlo. Si el empaque está abierto, no podemos recibirlo salvo que sea un defecto de fábrica."
+      },
+      {
+        "titulo": "Producto defectuoso o error en el pedido",
+        "texto": "Si el producto llegó defectuoso, incompleto o no corresponde a lo que pediste, escríbenos con fotos dentro de los 30 días siguientes. Asumimos el costo del cambio o de la devolución y te acompañamos en el proceso."
+      },
+      {
+        "titulo": "Cómo iniciar un cambio o devolución",
+        "texto": "Escríbenos por WhatsApp al +57 310 213 0278 o a adultoyssexshopweb@outlook.com con tu nombre, número de pedido y una foto del producto. Te respondemos con las instrucciones y el paso siguiente."
+      }
+    ]
+  }
+}

@@ -1,0 +1,93 @@
+---
+/**
+ * Carrusel de la portada: tres piezas que rotan solas cada siete segundos y
+ * se detienen con el puntero encima o al enfocar con el teclado.
+ *
+ * La primera pieza dice que es Adultoyss y que ofrece. Las otras dos llevan a
+ * una categoria concreta. El contenido sale de src/datos/home.json.
+ */
+import home from "../datos/home.json";
+import config from "../datos/config.json";
+import Icono from "./Icono.astro";
+import Foto from "./Foto.astro";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) =>
+  r === "whatsapp"
+    ? `https://wa.me/${config.whatsapp}`
+    : `${base}${r}`.replace(/\/{2,}/g, "/");
+---
+
+<section class="carrusel" id="carrusel" aria-roledescription="carrusel" aria-label="Bienvenida">
+  <div class="carrusel-pista">
+    {home.banners.map((banner, indice) => (
+      <article
+        class:list={["carrusel-pieza", { activa: indice === 0 }]}
+        role="group"
+        aria-roledescription="diapositiva"
+        aria-label={`${indice + 1} de ${home.banners.length}`}
+        aria-hidden={indice !== 0}
+      >
+        <div class="carrusel-texto">
+          <span class="carrusel-etiqueta">
+            <Icono nombre="brillo" tamano={14} />
+            {banner.etiqueta}
+          </span>
+          {indice === 0 ? <h1>{banner.titulo}</h1> : <h2>{banner.titulo}</h2>}
+          <p>{banner.texto}</p>
+          <div class="carrusel-acciones">
+            <a
+              class="boton boton-primario"
+              href={enlace(banner.enlace)}
+              {...(banner.enlace === "whatsapp" ? { target: "_blank", rel: "noopener" } : {})}
+            >
+              {banner.enlace === "whatsapp" && <Icono nombre="whatsapp" tamano={18} />}
+              {banner.boton}
+              <Icono nombre="flecha" tamano={17} />
+            </a>
+            <a class="boton boton-fantasma" href={enlace("nosotros")}>Conócenos</a>
+          </div>
+          <ul class="carrusel-sellos">
+            <li><Icono nombre="discreto" tamano={15} /> Discreción total</li>
+            <li><Icono nombre="camion" tamano={15} /> Envío nacional</li>
+            <li><Icono nombre="pago" tamano={15} /> Contraentrega</li>
+          </ul>
+        </div>
+
+        <div class="carrusel-visual">
+          <span class="carrusel-halo" aria-hidden="true"></span>
+          <span class="carrusel-marco" aria-hidden="true"></span>
+          <div class="carrusel-foto">
+            <Foto
+              nombre={banner.foto}
+              alt={banner.foto_alt}
+              sizes="(max-width: 900px) 92vw, 520px"
+              prioridad={indice === 0}
+            />
+          </div>
+          <span class="carrusel-flotante carrusel-flotante-arriba">
+            <Icono nombre="estrella" tamano={15} />
+            Selección Adultoyss
+          </span>
+          <span class="carrusel-flotante carrusel-flotante-abajo">
+            <Icono nombre="regalo" tamano={15} />
+            Listo para regalar
+          </span>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="carrusel-puntos" role="tablist" aria-label="Elegir diapositiva">
+    {home.banners.map((banner, indice) => (
+      <button
+        type="button"
+        role="tab"
+        class:list={["carrusel-punto", { activo: indice === 0 }]}
+        data-ir={indice}
+        aria-selected={indice === 0}
+        aria-label={banner.etiqueta}
+      ></button>
+    ))}
+  </div>
+</section>

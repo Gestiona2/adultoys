@@ -1,0 +1,180 @@
+---
+/**
+ * Portada.
+ *
+ * El orden cuenta una historia: que es Adultoyss (hero), que se puede hacer
+ * aqui (categorias), que nos recomiendan (productos), por que confiar
+ * (manifiesto y garantias) y como seguir (blog y WhatsApp).
+ */
+import Tienda from "../layouts/Tienda.astro";
+import BannerCarrusel from "../components/BannerCarrusel.astro";
+import FranjaGarantias from "../components/FranjaGarantias.astro";
+import GrillaProductos from "../components/GrillaProductos.astro";
+import TarjetaBlog from "../components/TarjetaBlog.astro";
+import BarraOfertas from "../components/BarraOfertas.astro";
+import Icono from "../components/Icono.astro";
+import Foto from "../components/Foto.astro";
+import home from "../datos/home.json";
+import config from "../datos/config.json";
+import categorias from "../datos/categorias.json";
+import productos from "../datos/productos.json";
+import blog from "../datos/blog.json";
+import { elegirRecomendados } from "../scripts/recomendados.js";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+
+const visibles = productos.filter((p) => !p.oculto);
+const disponibles = visibles.filter((p) => p.stock).length;
+const recomendados = elegirRecomendados(productos, 8);
+const ofertas = visibles
+  .filter((p) => p.descuento)
+  .sort((a, b) => (b.precio_antes - b.precio) - (a.precio_antes - a.precio));
+const grupos = [...categorias]
+  .sort((a, b) => a.orden - b.orden)
+  .filter((c) => c.id !== "otros");
+const posts = blog.posts.slice(0, 3);
+---
+
+<Tienda
+  titulo={`${config.nombre_largo} — juguetes, lencería y bienestar íntimo`}
+  descripcion="Tienda erótica en Tocancipá con envío discreto a toda Colombia. Vibradores, lencería, lubricantes y bienestar íntimo. Asesoría por WhatsApp y pago contraentrega."
+>
+  <BannerCarrusel />
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-pista">
+      {[0, 1].map(() => (
+        <span class="marquee-grupo">
+          {home.marquee.map((texto) => (
+            <span class="marquee-item">{texto} <i></i></span>
+          ))}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div class="container">
+    <FranjaGarantias />
+  </div>
+
+  <section class="seccion" id="categorias">
+    <div class="container">
+      <header class="seccion-cabeza">
+        <div>
+          <p class="seccion-etiqueta"><Icono nombre="brillo" tamano={14} /> Explora</p>
+          <h2>{home.categorias_titulo}</h2>
+          <p class="seccion-texto">{home.categorias_texto}</p>
+        </div>
+        <a class="seccion-enlace" href={enlace("catalogo")}>Ver todo el catálogo <Icono nombre="flecha" tamano={16} /></a>
+      </header>
+
+      <div class="bento">
+        {grupos.map((categoria, indice) => (
+          <a
+            href={enlace(`categoria/${categoria.id}`)}
+            class:list={["bento-card", { "bento-grande": indice < 2 }]}
+          >
+            <Foto nombre={categoria.imagen} alt={`Categoría ${categoria.nombre}`} sizes={indice < 2 ? "(max-width: 860px) 92vw, 440px" : "(max-width: 860px) 46vw, 260px"} />
+            <span class="bento-velo" aria-hidden="true"></span>
+            <span class="bento-contenido">
+              <span class="bento-icono"><Icono nombre={categoria.icono} tamano={indice < 2 ? 24 : 19} /></span>
+              <strong>{categoria.nombre}</strong>
+              <small>{categoria.total} productos</small>
+            </span>
+            <span class="bento-flecha" aria-hidden="true"><Icono nombre="flecha" tamano={17} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="recomendaciones">
+    <div class="container">
+      <header class="seccion-cabeza">
+        <div>
+          <p class="seccion-etiqueta"><Icono nombre="estrella" tamano={14} /> Selección Adultoyss</p>
+          <h2>{home.recomendaciones_titulo}</h2>
+          <p class="seccion-texto">{home.recomendaciones_texto}</p>
+        </div>
+        <a class="seccion-enlace" href={enlace("catalogo")}>Ver más <Icono nombre="flecha" tamano={16} /></a>
+      </header>
+      <GrillaProductos productos={recomendados} prioritarias={4} />
+    </div>
+  </section>
+
+  {ofertas.length > 0 && (
+    <section class="seccion" id="ofertas">
+      <div class="container">
+        <BarraOfertas cantidad={ofertas.length} />
+        <GrillaProductos productos={ofertas.slice(0, 4)} prioritarias={2} />
+      </div>
+    </section>
+  )}
+
+  <section class="seccion">
+    <div class="container">
+      <div class="manifiesto">
+        <div class="manifiesto-foto">
+          <Foto nombre={home.manifiesto.foto} alt={home.manifiesto.foto_alt} sizes="(max-width: 900px) 92vw, 540px" />
+          <div class="manifiesto-sello">
+            <strong>{Math.floor(disponibles / 50) * 50}+</strong>
+            <span>productos disponibles</span>
+          </div>
+          <div class="manifiesto-sello manifiesto-sello-abajo">
+            <Icono nombre="discreto" tamano={20} />
+            <span>Empaque neutro</span>
+          </div>
+        </div>
+        <div class="manifiesto-texto">
+          <p class="seccion-etiqueta"><Icono nombre="corazon" tamano={14} /> {home.manifiesto.etiqueta}</p>
+          <h2>{home.manifiesto.titulo}</h2>
+          <p>{home.manifiesto.texto}</p>
+          <ul class="lista-check">
+            {home.manifiesto.puntos.map((punto) => (
+              <li><Icono nombre="escudo" tamano={18} /> {punto}</li>
+            ))}
+          </ul>
+          <div class="manifiesto-acciones">
+            <a class="boton boton-primario" href={enlace("nosotros")}>Conoce Adultoyss</a>
+            <a class="boton boton-fantasma" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+              <Icono nombre="whatsapp" tamano={17} /> Pregúntanos
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="blog">
+    <div class="container">
+      <header class="seccion-cabeza">
+        <div>
+          <p class="seccion-etiqueta"><Icono nombre="hoja" tamano={14} /> Sin tabúes</p>
+          <h2>{home.blog_titulo}</h2>
+          <p class="seccion-texto">{home.blog_texto}</p>
+        </div>
+        <a class="seccion-enlace" href={enlace("blog")}>Ver todas las guías <Icono nombre="flecha" tamano={16} /></a>
+      </header>
+      <div class="blog-grilla">
+        {posts.map((post) => <TarjetaBlog post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="container">
+      <div class="cierre">
+        <span class="cierre-halo" aria-hidden="true"></span>
+        <div>
+          <p class="seccion-etiqueta"><Icono nombre="whatsapp" tamano={14} /> Asesoría real</p>
+          <h2>{home.cierre.titulo}</h2>
+          <p>{home.cierre.texto}</p>
+        </div>
+        <a class="boton boton-primario" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" tamano={18} /> {home.cierre.boton}
+        </a>
+      </div>
+    </div>
+  </section>
+</Tienda>

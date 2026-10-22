@@ -1,0 +1,82 @@
+---
+/**
+ * Visítanos: la tienda física es una sola. El mapa es un enlace, no un iframe:
+ * así la página no carga scripts de terceros ni pone cookies.
+ */
+import Tienda from "../layouts/Tienda.astro";
+import Icono from "../components/Icono.astro";
+import config from "../datos/config.json";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+const sede = config.sedes[0];
+const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sede.direccion)}`;
+---
+
+<Tienda
+  titulo="Visítanos"
+  descripcion={`Adultoyss en ${sede.direccion}. Atención discreta y recogida de pedidos coordinada por WhatsApp.`}
+  activa="sedes"
+>
+  <div class="container">
+    <header class="pagina-hero">
+      <p class="seccion-etiqueta"><Icono nombre="ubicacion" tamano={14} /> {config.ciudad}, {config.departamento}</p>
+      <h1>Visítanos en Milan Plaza</h1>
+      <p class="pagina-hero-entrada">Si estás cerca, coordina tu pedido por WhatsApp y recógelo sin esperas.</p>
+    </header>
+
+    <div class="sede">
+      <div class="sede-info">
+        <span class="sede-sello">Tienda física</span>
+        <h2>{sede.nombre}</h2>
+        <p class="sede-direccion">{sede.direccion}</p>
+
+        <ul class="sede-datos">
+          <li>
+            <span><Icono nombre="reloj" tamano={18} /></span>
+            <div><strong>Horario</strong><small>Confírmalo por WhatsApp antes de venir.</small></div>
+          </li>
+          <li>
+            <span><Icono nombre="telefono" tamano={18} /></span>
+            <div><strong>Teléfono</strong><small><a href={`tel:${sede.telefono}`}>{sede.telefono_visible}</a></small></div>
+          </li>
+          <li>
+            <span><Icono nombre="tienda" tamano={18} /></span>
+            <div><strong>Recogida</strong><small>Pide por la web y avísanos cuando vengas.</small></div>
+          </li>
+          <li>
+            <span><Icono nombre="discreto" tamano={18} /></span>
+            <div><strong>Discreción</strong><small>Empaque neutro y atención reservada.</small></div>
+          </li>
+        </ul>
+
+        <div class="sede-acciones">
+          <a class="boton boton-primario" href={mapa} target="_blank" rel="noopener">
+            <Icono nombre="ubicacion" tamano={18} /> Cómo llegar
+          </a>
+          <a class="boton boton-fantasma" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+            <Icono nombre="whatsapp" tamano={18} /> Coordinar recogida
+          </a>
+        </div>
+      </div>
+
+      <a class="sede-mapa" href={mapa} target="_blank" rel="noopener" aria-label="Abrir la ubicación en Google Maps">
+        <span class="sede-mapa-cuadricula" aria-hidden="true"></span>
+        <span class="sede-mapa-avenida sede-mapa-avenida-a" aria-hidden="true"></span>
+        <span class="sede-mapa-avenida sede-mapa-avenida-b" aria-hidden="true"></span>
+        <span class="sede-mapa-pin"><Icono nombre="ubicacion" tamano={26} /></span>
+        <span class="sede-mapa-etiqueta">{sede.nombre} · {config.ciudad}</span>
+        <span class="sede-mapa-nota">Toca para abrir en Google Maps</span>
+      </a>
+    </div>
+
+    <div class="cierre">
+      <span class="cierre-halo" aria-hidden="true"></span>
+      <div>
+        <h2>¿Prefieres que te lo llevemos?</h2>
+        <p>Envío estándar gratis a toda Colombia en {config.envio.dias_min}–{config.envio.dias_max} días hábiles.</p>
+      </div>
+      <a class="boton boton-primario" href={enlace("catalogo")}>Pedir a domicilio</a>
+    </div>
+  </div>
+</Tienda>

@@ -1,0 +1,17 @@
+---
+/**
+ * Pedidos enviados antes, para repetirlos de un toque. También viven solo en el
+ * navegador: son los pedidos que se enviaron desde este dispositivo.
+ */
+import Tienda from "../layouts/Tienda.astro";
+---
+<Tienda titulo="Volver a comprar" descripcion="Repite un pedido anterior en Adultoyss." activa="volver">
+  <div class="container">
+    <header class="catalogo-cabeza">
+      <p class="seccion-etiqueta">Tu historial</p>
+      <h1>Volver a comprar</h1>
+      <p>Los pedidos que enviaste desde este dispositivo.</p>
+    </header>
+    <div id="listaHistorial"><p class="grilla-vacia">Cargando…</p></div>
+  </div>
+</Tienda>

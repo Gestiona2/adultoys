@@ -1,0 +1,101 @@
+{
+  "_comentario": "Contenido de la portada. Se cambia aqui, sin tocar codigo.",
+  "banners": [
+    {
+      "etiqueta": "ADULTOYSS · TIENDA ERÓTICA",
+      "titulo": "Tu deseo, nuestra misión.",
+      "texto": "Juguetes, lencería y bienestar íntimo seleccionados para explorar sin juicios. Discreción total y envío a toda Colombia.",
+      "boton": "Explorar el catálogo",
+      "enlace": "catalogo",
+      "foto": "sitio/banner-hero-neon",
+      "foto_alt": "Silueta con luz neón magenta y azul sobre fondo oscuro"
+    },
+    {
+      "etiqueta": "NUEVOS DESEOS",
+      "titulo": "Juguetes para explorar a tu ritmo.",
+      "texto": "Vibradores, succionadores y balas con funciones pensadas para ti. Llegan en empaque neutro.",
+      "boton": "Ver vibradores",
+      "enlace": "categoria/vibradores",
+      "foto": "sitio/banner-hero-juguetes",
+      "foto_alt": "Colección de juguetes sexuales rosa sobre fondo claro"
+    },
+    {
+      "etiqueta": "JUEGO Y COMPLICIDAD",
+      "titulo": "Sado y fetish, con consentimiento.",
+      "texto": "Kits, esposas y accesorios para jugar con confianza, cuidando los límites de cada quien.",
+      "boton": "Explorar sado",
+      "enlace": "categoria/sado",
+      "foto": "sitio/banner-sado",
+      "foto_alt": "Arnés, antifaz y esposas de encaje negro sobre fondo rosa"
+    }
+  ],
+  "marquee": [
+    "DISCRECIÓN TOTAL",
+    "ENVÍO A TODA COLOMBIA",
+    "PRODUCTOS ORIGINALES",
+    "+18",
+    "PAGO CONTRAENTREGA",
+    "ASESORÍA POR WHATSAPP"
+  ],
+  "garantias": [
+    {
+      "icono": "camion",
+      "titulo": "Envío nacional discreto",
+      "texto": "2 a 3 días hábiles",
+      "nota_tyc": "Ver envíos",
+      "nota_tyc_enlace": "legal/envios"
+    },
+    {
+      "icono": "pago",
+      "titulo": "Pago contraentrega",
+      "texto": "Paga cuando recibas"
+    },
+    {
+      "icono": "escudo",
+      "titulo": "Productos originales",
+      "texto": "Seleccionados uno a uno"
+    },
+    {
+      "icono": "whatsapp",
+      "titulo": "Asesoría sin pena",
+      "texto": "Te ayudamos a elegir"
+    }
+  ],
+  "ofertas": {
+    "titulo": "Ofertas",
+    "texto": "Precios especiales por tiempo limitado."
+  },
+  "recomendaciones_titulo": "Recomendaciones para ti",
+  "recomendaciones_texto": "Una selección de lo que más nos piden, con envío discreto y pago contraentrega.",
+  "categorias_titulo": "Encuentra tu próximo deseo",
+  "categorias_texto": "Nueve puertas de entrada. Ninguna obligatoria.",
+  "manifiesto": {
+    "etiqueta": "SIN JUZGAR",
+    "titulo": "El placer también es bienestar.",
+    "texto": "Creemos en una sexualidad libre, informada y consentida. Por eso elegimos productos que cumplen, explicamos lo que vendemos y te acompañamos sin incómodos.",
+    "puntos": [
+      "Empaque neutro: nadie sabe qué hay dentro.",
+      "Te asesoramos por WhatsApp antes y después de comprar.",
+      "Si algo no era lo que esperabas, escríbenos y lo resolvemos."
+    ],
+    "foto": "sitio/blog-fondo-home",
+    "foto_alt": "Persona con lencería negra recostada sobre sábanas claras"
+  },
+  "blog_titulo": "Para leer sin tabúes",
+  "blog_texto": "Guías cortas para elegir mejor y disfrutar más.",
+  "cierre": {
+    "titulo": "¿No sabes por dónde empezar?",
+    "texto": "Escríbenos por WhatsApp. Te preguntamos qué buscas y te recomendamos sin compromiso.",
+    "boton": "Hablar con alguien"
+  },
+  "popup_oferta": {
+    "etiqueta": "PROMOCIÓN RELÁMPAGO",
+    "vence_prefijo": "Válida hasta",
+    "ver_detalle": "Ver detalle",
+    "pedir": "Agregar",
+    "cerrar": "Cerrar la oferta",
+    "anterior": "Ver promoción anterior",
+    "siguiente": "Ver promoción siguiente",
+    "elegir": "Elegir promoción"
+  }
+}

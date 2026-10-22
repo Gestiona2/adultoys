@@ -1,0 +1,17 @@
+---
+/**
+ * Favoritos. La lista vive en el navegador de cada persona, así que esta página
+ * llega vacía y se llena con JavaScript.
+ */
+import Tienda from "../layouts/Tienda.astro";
+---
+<Tienda titulo="Mis favoritos" descripcion="Los productos que guardaste en Adultoyss." activa="favoritos">
+  <div class="container">
+    <header class="catalogo-cabeza">
+      <p class="seccion-etiqueta">Tu selección</p>
+      <h1>Mis favoritos</h1>
+      <p>Se guardan en este navegador. No necesitas crear una cuenta.</p>
+    </header>
+    <div id="listaFavoritos"><p class="grilla-vacia">Cargando…</p></div>
+  </div>
+</Tienda>

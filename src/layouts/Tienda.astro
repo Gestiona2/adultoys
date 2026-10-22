@@ -1,0 +1,183 @@
+---
+/**
+ * Layout de la tienda: lo que se repite en todas las paginas.
+ *
+ * Encabezado, barra de categorias, pie, panel del carrito y boton flotante de
+ * WhatsApp. El contenido de cada pagina entra por el <slot /> y su texto vive
+ * en src/datos/.
+ */
+import "../styles/global.css";
+import "../styles/tienda.css";
+import config from "../datos/config.json";
+import Header from "../components/Header.astro";
+import SubnavCategorias from "../components/SubnavCategorias.astro";
+import Footer from "../components/Footer.astro";
+import VentanaOferta from "../components/VentanaOferta.astro";
+import Icono from "../components/Icono.astro";
+import VerificacionEdad from "../components/VerificacionEdad.astro";
+
+interface Props {
+  titulo: string;
+  descripcion?: string;
+  activa?: string;
+  imagen?: string;
+  sinSubnav?: boolean;
+}
+
+const {
+  titulo,
+  descripcion = config.descripcion_corta,
+  activa = "",
+  imagen,
+  sinSubnav = false,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const tituloCompleto = titulo.includes(config.negocio) ? titulo : `${titulo} | ${config.negocio}`;
+const urlCanonica = new URL(Astro.url.pathname, Astro.site ?? "https://adultoyss.com");
+const imagenSocial = new URL(imagen ?? `${base}img/compartir-adultoyss.jpg`, urlCanonica);
+
+const redes = config.redes.filter((red) => red.url).map((red) => red.url);
+
+const datosEstructurados = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  name: config.nombre_largo,
+  description: config.descripcion_corta,
+  url: urlCanonica.origin,
+  telephone: `+${config.whatsapp}`,
+  email: config.correo,
+  image: imagenSocial.href,
+  priceRange: "$$",
+  currenciesAccepted: "COP",
+  paymentAccepted: "Efectivo, Nequi, Daviplata",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: config.direccion,
+    addressLocality: config.ciudad,
+    addressRegion: config.departamento,
+    addressCountry: "CO",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: config.sedes[0].lat,
+    longitude: config.sedes[0].lng,
+  },
+  sameAs: redes,
+};
+---
+
+<!doctype html>
+<html lang="es" data-base={base}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#07040d" />
+    <link rel="canonical" href={urlCanonica.href} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}img/marca/icono-adultoyss-32.png`} />
+    <link rel="apple-touch-icon" href={`${base}img/marca/icono-adultoyss-180.png`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content={config.negocio} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:image" content={imagenSocial.href} />
+    <meta property="og:url" content={urlCanonica.href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="rating" content="adult" />
+    {import.meta.env.PUBLIC_NOINDEX === "1" && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Antes de pintar: si la persona no ha confirmado su edad, se marca la
+         página para que la ventana de +18 cubra el contenido desde el inicio. -->
+    <script is:inline>
+      try {
+        if (localStorage.getItem("adultoyss-mayor-de-edad") !== "1") document.documentElement.classList.add("pedir-edad");
+      } catch (e) {
+        document.documentElement.classList.add("pedir-edad");
+      }
+    </script>
+
+    <link rel="preload" href={`${base}fonts/sora-variable.woff2`} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={`${base}fonts/inter-variable.woff2`} as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} />
+
+    <!-- Medición: cada bloque sale solo si el propietario entregó ese código.
+         Con los campos vacíos no se carga nada de terceros. -->
+    {config.medicion?.google_analytics && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${config.medicion.google_analytics}`}></script>
+        <script set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${config.medicion.google_analytics}');`} />
+      </>
+    )}
+    {config.medicion?.meta_pixel && (
+      <>
+        <script set:html={`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${config.medicion.meta_pixel}');fbq('track','PageView');`} />
+        <noscript><img height="1" width="1" style="display:none" alt="" src={`https://www.facebook.com/tr?id=${config.medicion.meta_pixel}&ev=PageView&noscript=1`} /></noscript>
+      </>
+    )}
+    {config.medicion?.metricool && (
+      <script set:html={`function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"${config.medicion.metricool}"})});`} />
+    )}
+  </head>
+
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <Header />
+    {!sinSubnav && <SubnavCategorias activa={activa} />}
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <VentanaOferta />
+
+    <VerificacionEdad />
+
+    <div class="carrito-fondo" id="carritoFondo" hidden></div>
+    <aside
+      class="carrito"
+      id="carrito"
+      aria-label="Carrito de compras"
+      aria-hidden="true"
+      data-whatsapp={config.whatsapp}
+      hidden
+    >
+      <header class="carrito-cabeza">
+        <h2>Tu pedido</h2>
+        <button type="button" id="cerrarCarrito" class="carrito-cerrar" aria-label="Cerrar carrito">
+          <Icono nombre="cerrar" tamano={20} />
+        </button>
+      </header>
+      <div class="carrito-cuerpo" id="carritoCuerpo"></div>
+    </aside>
+
+    <div class="barra-pago" id="barraPago" hidden>
+      <span class="barra-pago-texto">
+        <strong id="barraPagoTotal">$0</strong>
+        <small id="barraPagoItems">0 productos</small>
+      </span>
+      <button type="button" class="boton boton-primario" id="barraPagoBoton">Finalizar pedido</button>
+    </div>
+
+    <a
+      class="flota-wa"
+      href={`https://wa.me/${config.whatsapp}`}
+      target="_blank"
+      rel="noopener"
+      aria-label="Escribir por WhatsApp"
+    >
+      <Icono nombre="whatsapp" tamano={26} />
+    </a>
+
+    <script>
+      import "../scripts/tienda.js";
+    </script>
+  </body>
+</html>

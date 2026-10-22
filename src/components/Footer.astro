@@ -1,0 +1,108 @@
+---
+/**
+ * Pie del sitio.
+ *
+ * Los datos legales que faltan se muestran como PENDIENTE solo en las paginas
+ * legales. Aqui se evita publicar informacion inventada.
+ */
+import config from "../datos/config.json";
+import categorias from "../datos/categorias.json";
+import Icono from "./Icono.astro";
+import Logo from "./Logo.astro";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (ruta: string) => `${base}${ruta}`.replace(/\/{2,}/g, "/");
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="container pie-grid">
+    <div class="pie-col pie-marca">
+      <Logo alto={50} />
+      <p class="pie-tagline">{config.tagline}</p>
+      <p class="pie-descripcion">{config.descripcion_corta}</p>
+      <a class="pie-wa" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" tamano={18} />
+        {config.whatsapp_visible}
+      </a>
+      <p class="pie-redes">
+        {config.redes.map((red) => red.url ? (
+          <a class="pie-red" href={red.url} target="_blank" rel="noopener" aria-label={red.nombre}>
+            <Icono nombre={red.id} tamano={18} />
+          </a>
+        ) : (
+          <span class="pie-red pie-red-apagada" role="img" title={`${red.nombre} (próximamente)`} aria-label={red.nombre}>
+            <Icono nombre={red.id} tamano={18} />
+          </span>
+        ))}
+      </p>
+      <p class="pie-pagos">
+        <Icono nombre="pago" tamano={16} />
+        Contraentrega · Nequi · Daviplata
+      </p>
+    </div>
+
+    <div class="pie-col">
+      <h3 class="pie-titulo">Categorías</h3>
+      <ul class="pie-lista">
+        {categorias.map((c) => (
+          <li><a href={enlace(`categoria/${c.id}`)}>{c.nombre}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="pie-col">
+      <h3 class="pie-titulo">La tienda</h3>
+      <ul class="pie-lista">
+        <li><a href={enlace("nosotros")}>Nosotros</a></li>
+        <li><a href={enlace("servicios")}>Envíos y pagos</a></li>
+        <li><a href={enlace("sedes")}>Visítanos</a></li>
+        <li><a href={enlace("blog")}>Blog</a></li>
+        <li><a href={enlace("contacto")}>Contacto</a></li>
+      </ul>
+    </div>
+
+    <div class="pie-col">
+      <h3 class="pie-titulo">Visítanos</h3>
+      <ul class="pie-lista pie-sedes">
+        {config.sedes.map((sede) => (
+          <li>
+            <strong>{sede.nombre}</strong>
+            <span>{sede.direccion}</span>
+            <a href={`tel:${sede.telefono}`}>{sede.telefono_visible}</a>
+          </li>
+        ))}
+      </ul>
+      <p class="pie-horario">Horario: confírmalo por WhatsApp antes de venir.</p>
+      <p class="pie-edad"><span>+18</span> {config.legal.aviso_18}</p>
+    </div>
+  </div>
+
+  <div class="pie-legal">
+    <div class="container">
+      <p class="pie-aviso">
+        Adultoyss es una tienda de productos para el bienestar y el placer íntimo. La información
+        de este sitio es orientativa y no reemplaza la consulta con un profesional de la salud.
+        El contenido está dirigido a personas mayores de 18 años. Comunicaciones:{" "}
+        <a href={`mailto:${config.correo}`}>{config.correo}</a>.
+      </p>
+      <div class="pie-ultima">
+        <span>© {anio} {config.negocio}. Todos los derechos reservados.</span>
+        <nav class="pie-legales" aria-label="Enlaces legales">
+          <a href={enlace("legal/privacidad")}>Privacidad</a>
+          <a href={enlace("legal/datos")}>Tratamiento de datos</a>
+          <a href={enlace("legal/terminos")}>Términos</a>
+          <a href={enlace("legal/envios")}>Envíos y devoluciones</a>
+        </nav>
+        <span>
+          {config.creditos.texto}{" "}
+          {config.creditos.url ? (
+            <a href={config.creditos.url} target="_blank" rel="noopener">{config.creditos.nombre}</a>
+          ) : (
+            <span>{config.creditos.nombre}</span>
+          )}.
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

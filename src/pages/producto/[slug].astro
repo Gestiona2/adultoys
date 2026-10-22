@@ -1,0 +1,234 @@
+---
+/**
+ * Ficha de producto: una página HTML por cada producto del catálogo.
+ *
+ * Cada producto tiene su propia dirección, su propio título y su precio dentro
+ * del HTML, que es lo que permite que aparezca al buscar el nombre del
+ * producto en Google.
+ */
+import Tienda from "../../layouts/Tienda.astro";
+import GrillaProductos from "../../components/GrillaProductos.astro";
+import Icono from "../../components/Icono.astro";
+import { pesos } from "../../scripts/formato.js";
+import productos from "../../datos/productos.json";
+import categorias from "../../datos/categorias.json";
+import config from "../../datos/config.json";
+
+export function getStaticPaths() {
+  return productos
+    .filter((producto) => !producto.oculto)
+    .map((producto) => ({
+      params: { slug: producto.slug },
+      props: { producto },
+    }));
+}
+
+const { producto } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+
+const categoria = categorias.find((c) => c.id === producto.categoria);
+const ahorro = producto.precio_antes && producto.precio_antes > producto.precio
+  ? producto.precio_antes - producto.precio
+  : null;
+
+const visibles = productos.filter((p) => !p.oculto && p.slug !== producto.slug);
+const delMismoTipo = visibles.filter((p) => p.subcategoria === producto.subcategoria);
+const deLaCategoria = visibles.filter(
+  (p) => p.categoria === producto.categoria && p.subcategoria !== producto.subcategoria
+);
+const relacionados = [...delMismoTipo, ...deLaCategoria].slice(0, 4);
+
+const imagenPrincipal = `${base}img/${producto.imagenes[0]}`.replace(/\/{2,}/g, "/");
+
+const filasFicha = [
+  ["Marca", producto.marca && producto.marca !== "GENERAL" ? producto.marca : null],
+  ["Presentación", producto.presentacion],
+  ["Referencia", producto.sku],
+  ["Categoría", categoria?.nombre],
+  ["Tipo", producto.subcategoria_nombre],
+].filter(([, valor]) => valor);
+
+const fichaGoogle = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: producto.titulo,
+  image: new URL(imagenPrincipal, Astro.site ?? "https://adultoyss.com").href,
+  description: producto.descripcion,
+  ...(producto.marca && producto.marca !== "GENERAL" && { brand: { "@type": "Brand", name: producto.marca } }),
+  ...(producto.sku && { sku: producto.sku }),
+  offers: {
+    "@type": "Offer",
+    price: producto.precio,
+    priceCurrency: "COP",
+    availability: producto.stock === false
+      ? "https://schema.org/OutOfStock"
+      : "https://schema.org/InStock",
+    seller: { "@type": "Organization", name: config.negocio },
+  },
+};
+
+const migas = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: enlace("") },
+    ...(categoria
+      ? [{ "@type": "ListItem", position: 2, name: categoria.nombre, item: enlace(`categoria/${categoria.id}`) }]
+      : []),
+    { "@type": "ListItem", position: categoria ? 3 : 2, name: producto.titulo },
+  ],
+};
+---
+
+<Tienda
+  titulo={`${producto.titulo} — ${pesos(producto.precio)}`}
+  descripcion={`${producto.titulo}${producto.presentacion ? `, ${producto.presentacion}` : ""}. ${pesos(producto.precio)} con envío discreto a toda Colombia y pago contraentrega.`}
+  activa={producto.categoria}
+  imagen={imagenPrincipal}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(fichaGoogle)} />
+  <script type="application/ld+json" set:html={JSON.stringify(migas)} />
+
+  <div class="container">
+    <nav class="migas" aria-label="Ruta de navegación">
+      <a href={enlace("")}>Inicio</a>
+      <span aria-hidden="true">›</span>
+      {categoria && (
+        <>
+          <a href={enlace(`categoria/${categoria.id}`)}>{categoria.nombre}</a>
+          <span aria-hidden="true">›</span>
+        </>
+      )}
+      <span class="migas-actual">{producto.titulo}</span>
+    </nav>
+
+    <div class="ficha">
+      <div class="ficha-galeria">
+        <div class="ficha-foto">
+          <img
+            src={imagenPrincipal}
+            alt={producto.titulo}
+            width="560"
+            height="560"
+            fetchpriority="high"
+            decoding="async"
+          />
+          {producto.descuento && <span class="ficha-descuento">-{producto.descuento}%</span>}
+          {producto.recomendado && <span class="ficha-sello">Selección Adultoyss</span>}
+        </div>
+
+        <ul class="ficha-mini-ventajas">
+          <li><Icono nombre="discreto" tamano={17} /> Empaque neutro</li>
+          <li><Icono nombre="camion" tamano={17} /> Envío gratis 2–3 días</li>
+          <li><Icono nombre="pago" tamano={17} /> Contraentrega</li>
+        </ul>
+      </div>
+
+      <div class="ficha-datos">
+        <span class="ficha-marca">{producto.subcategoria_nombre || producto.subcategoria}</span>
+        <h1 class="ficha-titulo">{producto.titulo}</h1>
+        {producto.presentacion && <p class="ficha-presentacion">{producto.presentacion}</p>}
+
+        <div class="ficha-precio">
+          {ahorro && <s>{pesos(producto.precio_antes)}</s>}
+          <strong>{pesos(producto.precio)}</strong>
+          {ahorro && <span class="ficha-ahorro">Ahorras {pesos(ahorro)}</span>}
+        </div>
+
+        <p class="ficha-disponibilidad">
+          {producto.stock === false ? (
+            <><span class="punto punto-rojo"></span> Agotado por ahora · pregúntanos por la próxima entrada</>
+          ) : (
+            <><span class="punto punto-verde"></span> Disponible · despachamos en 24 horas hábiles</>
+          )}
+        </p>
+
+        <div class="ficha-acciones">
+          {producto.stock === false ? (
+            <a class="boton boton-primario ficha-agregar" href={`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(`Hola, quiero saber cuándo llega ${producto.titulo}`)}`} target="_blank" rel="noopener">
+              <Icono nombre="whatsapp" tamano={18} /> Avisarme cuando llegue
+            </a>
+          ) : (
+            <button
+              type="button"
+              class="boton boton-primario ficha-agregar"
+              data-agregar={producto.slug}
+              data-titulo={producto.titulo}
+              data-precio={producto.precio}
+              data-imagen={producto.imagenes[0]}
+            >
+              <Icono nombre="carrito" tamano={18} /> Agregar al pedido
+            </button>
+          )}
+          <button type="button" class="boton boton-borde" data-favorito={producto.slug} aria-pressed="false">
+            <Icono nombre="corazon" tamano={18} /> Guardar
+          </button>
+        </div>
+
+        <a class="ficha-wa" href={`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(`Hola, tengo una duda sobre ${producto.titulo}`)}`} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" tamano={17} /> ¿Dudas? Pregúntanos por WhatsApp
+        </a>
+
+        <ul class="ficha-ventajas">
+          <li><Icono nombre="camion" tamano={17} /> Envío estándar gratis a toda Colombia en {config.envio.dias_min}–{config.envio.dias_max} días hábiles</li>
+          <li><Icono nombre="escudo" tamano={17} /> Producto original, revisado y sellado</li>
+          <li><Icono nombre="tienda" tamano={17} /> También puedes recogerlo en {config.ciudad}</li>
+          <li><Icono nombre="historial" tamano={17} /> {config.devoluciones_dias} días para cambios según nuestra política</li>
+        </ul>
+
+        {producto.descripcion && (
+          <section class="ficha-descripcion">
+            <h2>Descripción</h2>
+            <p>{producto.descripcion}</p>
+          </section>
+        )}
+
+        {filasFicha.length > 0 && (
+          <section class="ficha-tecnica">
+            <h2>Ficha técnica</h2>
+            <dl class="ficha-tecnica-tabla">
+              {filasFicha.map(([etiqueta, valor]) => (
+                <div class="ficha-tecnica-fila">
+                  <dt>{etiqueta}</dt>
+                  <dd>{valor}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        <details class="ficha-acordeon">
+          <summary>Envíos, pagos y devoluciones</summary>
+          <div>
+            <p>Enviamos a toda Colombia en {config.envio.dias_min} a {config.envio.dias_max} días hábiles. El envío estándar es gratis y el empaque es neutro, sin logos ni nombres del contenido.</p>
+            <p>Puedes pagar contraentrega, por Nequi o Daviplata. Si algo no era lo que esperabas, escríbenos dentro de los {config.devoluciones_dias} días siguientes a la entrega.</p>
+            <p><a href={enlace("legal/envios")}>Leer la política completa →</a></p>
+          </div>
+        </details>
+
+        <p class="ficha-legal">
+          La información de este sitio es orientativa y no reemplaza la consulta con un
+          profesional de la salud. Producto para mayores de 18 años.
+        </p>
+      </div>
+    </div>
+
+    {relacionados.length > 0 && (
+      <section class="seccion">
+        <header class="seccion-cabeza">
+          <div>
+            <p class="seccion-etiqueta"><Icono nombre="corazon" tamano={14} /> Sigue explorando</p>
+            <h2>Te puede interesar</h2>
+          </div>
+          {categoria && (
+            <a class="seccion-enlace" href={enlace(`categoria/${categoria.id}`)}>
+              Ver {categoria.nombre} <Icono nombre="flecha" tamano={16} />
+            </a>
+          )}
+        </header>
+        <GrillaProductos productos={relacionados} />
+      </section>
+    )}
+  </div>
+</Tienda>

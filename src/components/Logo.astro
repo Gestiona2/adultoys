@@ -1,0 +1,26 @@
+---
+/**
+ * El logo de Adultoyss.
+ *
+ * `clara` es la version para fondos oscuros (la del sitio).
+ * `normal` es la version original para fondos claros (documentos, Excel).
+ */
+interface Props {
+  alto?: number;
+  variante?: "clara" | "normal";
+  clase?: string;
+}
+const { alto = 52, variante = "clara", clase = "" } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const src = `${base}img/marca/logo-adultoyss${variante === "clara" ? "-claro" : ""}.png`.replace(/\/{2,}/g, "/");
+const ancho = Math.round((alto * 385) / 214);
+---
+
+<img
+  src={src}
+  alt="Adultoyss, tienda erótica"
+  width={ancho}
+  height={alto}
+  class:list={["logo", clase]}
+  decoding="async"
+/>

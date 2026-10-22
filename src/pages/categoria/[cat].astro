@@ -1,0 +1,75 @@
+---
+/**
+ * Una página por categoría, con todos sus productos ya en el HTML. Son nueve
+ * páginas más que Google puede indexar, cada una compitiendo por búsquedas
+ * como "vibradores Colombia" o "lencería erótica".
+ */
+import Tienda from "../../layouts/Tienda.astro";
+import GrillaProductos from "../../components/GrillaProductos.astro";
+import Icono from "../../components/Icono.astro";
+import Foto from "../../components/Foto.astro";
+import productos from "../../datos/productos.json";
+import categorias from "../../datos/categorias.json";
+
+export function getStaticPaths() {
+  return categorias.map((categoria) => ({
+    params: { cat: categoria.id },
+    props: {
+      categoria,
+      productos: productos.filter((p) => p.categoria === categoria.id && !p.oculto),
+    },
+  }));
+}
+
+const { categoria, productos: lista } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+const enOferta = lista.filter((p) => p.descuento).length;
+const subcategorias = categoria.subcategorias?.filter((s: any) => s.total > 0) ?? [];
+---
+
+<Tienda
+  titulo={`${categoria.nombre} — ${lista.length} productos`}
+  descripcion={`${lista.length} productos de ${categoria.nombre.toLowerCase()} en Adultoyss. Envío discreto a toda Colombia, pago contraentrega y asesoría por WhatsApp.`}
+  activa={categoria.id}
+>
+  <div class="container">
+    <header class="categoria-hero">
+      <div class="categoria-hero-foto">
+        <Foto nombre={categoria.imagen} alt={`Categoría ${categoria.nombre}`} sizes="(max-width: 860px) 92vw, 1100px" prioridad />
+      </div>
+      <div class="categoria-hero-velo"></div>
+      <div class="categoria-hero-texto">
+        <nav class="migas" aria-label="Ruta de navegación">
+          <a href={enlace("")}>Inicio</a> <span aria-hidden="true">›</span>
+          <a href={enlace("catalogo")}>Catálogo</a> <span aria-hidden="true">›</span>
+          <span class="migas-actual">{categoria.nombre}</span>
+        </nav>
+        <h1 class="titulo-con-icono">
+          <span class="icono-circulo" aria-hidden="true"><Icono nombre={categoria.icono} tamano={24} /></span>
+          {categoria.nombre}
+        </h1>
+        <p class="categoria-hero-descripcion">{categoria.descripcion}</p>
+        <p class="categoria-hero-meta">
+          {lista.length} productos
+          {enOferta > 0 && <> · <strong>{enOferta} en oferta</strong></>}
+          · <a href={enlace(`catalogo?cat=${categoria.id}`)}>Filtrar y ordenar →</a>
+        </p>
+      </div>
+    </header>
+
+    {subcategorias.length > 0 && (
+      <nav class="chips-sub" aria-label={`Tipos de ${categoria.nombre}`}>
+        {subcategorias.map((sub: any) => (
+          <a class="chip-sub" href={enlace(`catalogo?cat=${categoria.id}&sub=${sub.id}`)}>
+            {sub.nombre} <span>{sub.total}</span>
+          </a>
+        ))}
+      </nav>
+    )}
+
+    <div class="categoria-grilla">
+      <GrillaProductos productos={lista} prioritarias={5} vacio="Todavía no hay productos en esta categoría." />
+    </div>
+  </div>
+</Tienda>

@@ -1,0 +1,52 @@
+# Publica el sitio en GitHub Pages con cada cambio en main.
+# Hoy es una demo en demos.emp2web.com/adultoys/ (sin indexar). Cuando el cliente
+# tenga su dominio: PUBLIC_SITE con su dominio, PUBLIC_BASE "/" y quitar PUBLIC_NOINDEX.
+name: Publicar sitio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:      # permite lanzarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si llegan dos cambios seguidos, publica el último y descarta el anterior.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_SITE: https://demos.emp2web.com
+      PUBLIC_BASE: /adultoys/
+      PUBLIC_NOINDEX: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - run: npm run validar
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    needs: compilar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

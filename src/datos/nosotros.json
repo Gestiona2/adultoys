@@ -1,0 +1,32 @@
+{
+  "titulo": "Una tienda para explorar sin juicios",
+  "entrada": "Adultoyss nació en Tocancipá con una idea simple: que hablar de placer no sea incómodo y que comprar sea tan fácil como pedir un domicilio.",
+  "proposito": "Seleccionamos juguetes, lencería y productos de bienestar íntimo pensando en la calidad, la seguridad y la discreción. No vendemos lo que no usaríamos ni recomendamos lo que no conocemos.",
+  "foto_principal": {
+    "foto": "sitio/blog-fondo-home",
+    "foto_alt": "Persona con lencería negra recostada sobre sábanas claras",
+    "pie": "Un espacio para el placer y el autocuidado."
+  },
+  "bloques": [
+    {
+      "titulo": "Cómo trabajamos",
+      "texto": "Cada producto que ves en el catálogo pasó por una revisión de origen, estado y precio. Si algo está agotado, lo marcamos; si no tenemos un dato, lo decimos. Preferimos una respuesta honesta a una venta apurada."
+    },
+    {
+      "titulo": "La discreción no es un extra",
+      "texto": "Tu pedido llega en una caja neutra, sin logos ni nombres del contenido. La persona que lo entrega no sabe qué hay adentro y nosotros no compartimos tus datos con nadie."
+    },
+    {
+      "titulo": "Consentimiento primero",
+      "texto": "Todo lo que vendemos es para adultos y para disfrutar en acuerdos claros. Si tienes dudas sobre un producto, un material o una práctica, pregúntanos: responder también es parte del servicio."
+    }
+  ],
+  "galeria": [],
+  "valores": [
+    "Consentimiento y respeto por los límites de cada quien.",
+    "Información clara, sin exagerar beneficios ni inventar propiedades.",
+    "Discreción en el empaque, la conversación y el manejo de tus datos.",
+    "Productos originales y proveedores confiables.",
+    "Un trato cercano, sin morbo ni juicios."
+  ]
+}

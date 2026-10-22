@@ -1,0 +1,85 @@
+---
+/**
+ * Tarjeta de producto. La usan la portada, el catalogo, las ofertas y los
+ * relacionados: cualquier cambio aqui se ve en todo el sitio.
+ *
+ * `prioridad` es para las primeras tarjetas de la pantalla. Ponerla en todas
+ * tendria el efecto contrario, porque las imagenes compiten entre si.
+ */
+import { pesos } from "../scripts/formato.js";
+import Icono from "./Icono.astro";
+
+interface Props {
+  producto: any;
+  prioridad?: boolean;
+}
+
+const { producto, prioridad = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const url = `${base}producto/${producto.slug}`.replace(/\/{2,}/g, "/");
+const imagen = `${base}img/${producto.imagenes[0]}`.replace(/\/{2,}/g, "/");
+const ahorro = producto.precio_antes ? producto.precio_antes - producto.precio : null;
+---
+
+<article class="tarjeta" data-slug={producto.slug}>
+  {producto.descuento && <span class="tarjeta-descuento">-{producto.descuento}%</span>}
+  {producto.recomendado && <span class="tarjeta-destacado">Recomendado</span>}
+  {producto.stock === false && <span class="tarjeta-agotado">Agotado</span>}
+
+  <button
+    type="button"
+    class="tarjeta-favorito"
+    data-favorito={producto.slug}
+    aria-label={`Guardar ${producto.titulo} en favoritos`}
+    aria-pressed="false"
+  >
+    <Icono nombre="corazon" tamano={17} />
+  </button>
+
+  <a href={url} class="tarjeta-foto">
+    <img
+      src={imagen}
+      alt={producto.titulo}
+      width="260"
+      height="260"
+      loading={prioridad ? "eager" : "lazy"}
+      fetchpriority={prioridad ? "high" : "auto"}
+      decoding="async"
+    />
+  </a>
+
+  <div class="tarjeta-cuerpo">
+    <span class="tarjeta-marca">{producto.subcategoria_nombre || producto.subcategoria}</span>
+
+    <h3 class="tarjeta-titulo">
+      <a href={url}>{producto.titulo}</a>
+    </h3>
+
+    {producto.presentacion && <p class="tarjeta-presentacion">{producto.presentacion}</p>}
+
+    <div class="tarjeta-precio">
+      {producto.precio_antes && producto.precio_antes > producto.precio && (
+        <s class="tarjeta-antes">{pesos(producto.precio_antes)}</s>
+      )}
+      <strong>{pesos(producto.precio)}</strong>
+      {ahorro && ahorro > 0 && <span class="tarjeta-ahorro">Ahorras {pesos(ahorro)}</span>}
+    </div>
+
+    {producto.stock === false ? (
+      <button type="button" class="boton boton-azul tarjeta-agregar" disabled>
+        Agotado
+      </button>
+    ) : (
+      <button
+        type="button"
+        class="boton boton-azul tarjeta-agregar"
+        data-agregar={producto.slug}
+        data-titulo={producto.titulo}
+        data-precio={producto.precio}
+        data-imagen={producto.imagenes[0]}
+      >
+        Agregar
+      </button>
+    )}
+  </div>
+</article>

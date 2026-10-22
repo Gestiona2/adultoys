@@ -1,0 +1,137 @@
+---
+/**
+ * Contacto: los canales reales. No hay formulario que se pierda en un correo:
+ * el botón arma el mensaje y abre WhatsApp.
+ */
+import Tienda from "../layouts/Tienda.astro";
+import Icono from "../components/Icono.astro";
+import config from "../datos/config.json";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.direccion)}`;
+---
+
+<Tienda
+  titulo="Contacto"
+  descripcion="Escríbenos por WhatsApp, correo o visítanos en Tocancipá. Asesoría discreta en Adultoyss."
+  activa="contacto"
+>
+  <div class="container">
+    <header class="pagina-hero">
+      <p class="seccion-etiqueta"><Icono nombre="whatsapp" tamano={14} /> Hablemos</p>
+      <h1>Estamos para ayudarte</h1>
+      <p class="pagina-hero-entrada">
+        No necesitas saber el nombre exacto de nada. Cuéntanos qué buscas y te
+        mostramos opciones con calma, sin preguntas incómodas.
+      </p>
+    </header>
+
+    <div class="contacto-grid">
+      <div class="contacto-canales">
+        <a class="contacto-canal contacto-canal-wa" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+          <span class="contacto-canal-icono"><Icono nombre="whatsapp" tamano={24} /></span>
+          <span>
+            <strong>WhatsApp</strong>
+            <small>{config.whatsapp_visible}</small>
+            <em>La forma más rápida. Respondemos en horario de atención.</em>
+          </span>
+          <Icono nombre="flecha" tamano={18} />
+        </a>
+
+        <a class="contacto-canal" href={`mailto:${config.correo}`}>
+          <span class="contacto-canal-icono"><Icono nombre="receta" tamano={24} /></span>
+          <span>
+            <strong>Correo</strong>
+            <small>{config.correo}</small>
+            <em>Para pedidos especiales, facturas o temas de datos.</em>
+          </span>
+          <Icono nombre="flecha" tamano={18} />
+        </a>
+
+        <a class="contacto-canal" href={mapa} target="_blank" rel="noopener">
+          <span class="contacto-canal-icono"><Icono nombre="ubicacion" tamano={24} /></span>
+          <span>
+            <strong>Tienda</strong>
+            <small>{config.direccion}</small>
+            <em>Recogida coordinada por WhatsApp. Horario por confirmar.</em>
+          </span>
+          <Icono nombre="flecha" tamano={18} />
+        </a>
+
+        <a class="contacto-canal" href={config.redes.find((r) => r.id === "instagram")?.url || "#"} target="_blank" rel="noopener">
+          <span class="contacto-canal-icono"><Icono nombre="instagram" tamano={24} /></span>
+          <span>
+            <strong>Instagram</strong>
+            <small>@adultoyss.sexshop</small>
+            <em>Novedades, recomendaciones y contenido sin tabúes.</em>
+          </span>
+          <Icono nombre="flecha" tamano={18} />
+        </a>
+      </div>
+
+      <form class="contacto-form" id="formContacto" data-whatsapp={config.whatsapp}>
+        <h2>Escríbenos ahora</h2>
+        <p class="contacto-form-texto">Completa y el botón abre WhatsApp con el mensaje listo.</p>
+
+        <label>Tu nombre
+          <input name="nombre" required autocomplete="name" placeholder="Ana" />
+        </label>
+        <label>¿Sobre qué quieres hablar?
+          <select name="tema">
+            <option>Quiero una recomendación</option>
+            <option>Tengo una duda de un producto</option>
+            <option>Estado de mi pedido</option>
+            <option>Cambios o devoluciones</option>
+            <option>Otra cosa</option>
+          </select>
+        </label>
+        <label>Tu mensaje
+          <textarea name="mensaje" rows="4" required placeholder="Cuéntanos qué buscas o qué necesitas."></textarea>
+        </label>
+        <button type="submit" class="boton boton-primario">
+          <Icono nombre="whatsapp" tamano={18} /> Abrir WhatsApp
+        </button>
+        <p class="contacto-form-nota">No guardamos estos datos en el sitio: solo viajan en el mensaje que tú envías.</p>
+      </form>
+    </div>
+
+    <div class="contacto-faq">
+      <h2>Antes de escribir</h2>
+      <details>
+        <summary>¿El envío es discreto?</summary>
+        <p>Sí. La caja va sin logos ni nombres del contenido, y quien la entrega no sabe qué hay adentro.</p>
+      </details>
+      <details>
+        <summary>¿Puedo pagar contraentrega?</summary>
+        <p>Sí, en las ciudades donde la transportadora lo permite. También aceptamos Nequi, Daviplata y transferencia.</p>
+      </details>
+      <details>
+        <summary>¿Puedo recoger en Tocancipá?</summary>
+        <p>Sí. Coordinamos por WhatsApp para tener tu pedido listo en C.C. Milan Plaza.</p>
+      </details>
+      <details>
+        <summary>¿Y si el producto no era lo que esperaba?</summary>
+        <p>Escríbenos dentro de los {config.devoluciones_dias} días. Revisamos el caso y buscamos una solución.</p>
+      </details>
+    </div>
+  </div>
+
+  <script>
+    const formulario = document.getElementById("formContacto");
+    formulario?.addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      const datos = new FormData(formulario);
+      const nombre = String(datos.get("nombre") || "").trim();
+      const tema = String(datos.get("tema") || "");
+      const mensaje = String(datos.get("mensaje") || "").trim();
+      if (!nombre || !mensaje) {
+        formulario.querySelector("[required]:invalid")?.focus();
+        return;
+      }
+      const texto = `Hola, soy ${nombre}. Tema: ${tema}.\n\n${mensaje}`;
+      const numero = String(formulario.dataset.whatsapp || "").replace(/\D/g, "");
+      window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
+    });
+  </script>
+</Tienda>

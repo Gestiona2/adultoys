@@ -1,0 +1,37 @@
+---
+/**
+ * Barra de categorias, pegada bajo el encabezado.
+ *
+ * Las categorias salen de src/datos/categorias.json. "Otros" no entra en la
+ * barra: agrupa pocos productos y desordena la lectura.
+ */
+import categorias from "../datos/categorias.json";
+import productos from "../datos/productos.json";
+
+interface Props { activa?: string }
+const { activa = "" } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const enlace = (ruta: string) => `${base}${ruta}`.replace(/\/{2,}/g, "/");
+const ordenadas = [...categorias].sort((a, b) => a.orden - b.orden).filter((c) => c.id !== "otros");
+const hayOfertas = productos.some((p) => !p.oculto && p.descuento);
+---
+
+<nav class="subnav" aria-label="Categorías de productos">
+  <div class="container subnav-inner">
+    {hayOfertas && (
+      <a href={enlace("ofertas")} class:list={["subnav-enlace", "subnav-ofertas", { activo: activa === "ofertas" }]}>
+        Ofertas
+      </a>
+    )}
+    {ordenadas.map((categoria) => (
+      <a
+        href={enlace(`categoria/${categoria.id}`)}
+        class:list={["subnav-enlace", { activo: activa === categoria.id }]}
+      >
+        {categoria.nombre}
+      </a>
+    ))}
+    <a href={enlace("blog")} class:list={["subnav-enlace", "subnav-blog", { activo: activa === "blog" }]}>Blog</a>
+  </div>
+</nav>

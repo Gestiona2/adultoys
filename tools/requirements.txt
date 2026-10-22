@@ -1,0 +1,2 @@
+# Herramientas de escritorio (no se usan en el sitio publicado).
+openpyxl>=3.1

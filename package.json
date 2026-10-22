@@ -1,0 +1,26 @@
+{
+  "name": "web-adultoys",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "node --test --test-timeout=60000 \"src/scripts/*.test.js\" && python3 -m unittest discover -s tools -p \"test_*.py\"",
+    "verificar": "npm run validar && npm test && npm run build",
+    "validar": "python3 tools/validar.py src/datos/productos.json public/img",
+    "datos": "python3 tools/construir-datos.py",
+    "excel": "python3 tools/excel_catalogo.py generar",
+    "excel:revisar": "python3 tools/excel_catalogo.py revisar Catalogo-Adultoyss.xlsx",
+    "excel:aplicar": "python3 tools/excel_catalogo.py aplicar Catalogo-Adultoyss.xlsx",
+    "imagenes": "node tools/preparar-imagenes.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^7.0.0",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.1.0"
+  }
+}

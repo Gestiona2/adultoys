@@ -1,0 +1,26 @@
+---
+/**
+ * Las cuatro razones para pedir en Adultoyss, al pie de la portada.
+ */
+import home from "../datos/home.json";
+import Icono from "./Icono.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<ul class="garantias">
+  {home.garantias.map((garantia) => (
+    <li class="garantia">
+      <span class="garantia-icono"><Icono nombre={garantia.icono} tamano={22} /></span>
+      <span>
+        <strong>{garantia.titulo}</strong>
+        <small>{garantia.texto}</small>
+        {garantia.nota_tyc && (
+          <small class="garantia-tyc">
+            <a href={`${base}${garantia.nota_tyc_enlace}`.replace(/\/{2,}/g, "/")}>{garantia.nota_tyc}</a>
+          </small>
+        )}
+      </span>
+    </li>
+  ))}
+</ul>

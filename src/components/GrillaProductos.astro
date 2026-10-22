@@ -1,0 +1,25 @@
+---
+/**
+ * Grilla de tarjetas. Cuatro columnas en escritorio y dos en celular: con
+ * fotos de producto conviene darles aire, a diferencia de un catalogo de
+ * cajas.
+ */
+import TarjetaProducto from "./TarjetaProducto.astro";
+
+interface Props {
+  productos: any[];
+  prioritarias?: number;
+  vacio?: string;
+}
+const { productos, prioritarias = 0, vacio = "No hay productos para mostrar." } = Astro.props;
+---
+
+{productos.length === 0 ? (
+  <p class="grilla-vacia">{vacio}</p>
+) : (
+  <div class="grilla">
+    {productos.map((producto, indice) => (
+      <TarjetaProducto producto={producto} prioridad={indice < prioritarias} />
+    ))}
+  </div>
+)}

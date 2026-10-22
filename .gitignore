@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.~lock.*#
+
+# Insumos del cliente: material original descargado, fotos fuente y referencias.
+# No viajan al repositorio del sitio.
+insumos/
+
+# Planilla de edición del catálogo: se entrega y se trabaja en local.
+Catalogo-Adultoyss.xlsx

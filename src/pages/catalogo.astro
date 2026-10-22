@@ -1,0 +1,148 @@
+---
+/**
+ * Catálogo con filtros.
+ *
+ * El HTML trae los primeros productos ya pintados, para que Google vea
+ * contenido y para que la pagina se vea llena de inmediato. A partir de ahí el
+ * filtrado ocurre en el navegador sobre el catálogo ligero, sin recargar.
+ *
+ * El estado de los filtros va en la dirección (?cat=&marca=&orden=), así que
+ * un filtro se puede compartir por WhatsApp y el botón atrás funciona.
+ */
+import Tienda from "../layouts/Tienda.astro";
+import GrillaProductos from "../components/GrillaProductos.astro";
+import Icono from "../components/Icono.astro";
+import productos from "../datos/productos.json";
+import categorias from "../datos/categorias.json";
+
+const PRIMEROS = 24;
+const visibles = productos.filter((p) => !p.oculto);
+const marcas = [...new Set(visibles.map((p) => p.marca).filter((m) => m && m !== "GENERAL"))].sort();
+const subcategorias = [...new Set(visibles.map((p) => p.subcategoria).filter(Boolean))].sort();
+const nombresSub = Object.fromEntries(
+  visibles.map((p) => [p.subcategoria, p.subcategoria_nombre || p.subcategoria])
+);
+const precios = visibles.map((p) => p.precio);
+const precioMax = Math.ceil(Math.max(...precios) / 10000) * 10000;
+const iniciales = visibles.slice(0, PRIMEROS);
+const nombreDe = (id: string) => nombresSub[id] || id.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+---
+
+<Tienda
+  titulo="Catálogo completo"
+  descripcion={`Los ${visibles.length} productos de Adultoyss: vibradores, lencería, lubricantes y bienestar íntimo, con envío discreto a toda Colombia y pago contraentrega.`}
+  activa="catalogo"
+>
+  <div class="container">
+    <header class="catalogo-cabeza">
+      <p class="seccion-etiqueta"><Icono nombre="brillo" tamano={14} /> Todo para explorar</p>
+      <h1>Catálogo</h1>
+      <p id="catalogoResumen">{visibles.length} productos</p>
+    </header>
+
+    <div class="catalogo">
+      <button type="button" class="filtros-abrir boton boton-borde" id="abrirFiltros">
+        <Icono nombre="filtro" tamano={18} /> Filtrar y ordenar
+      </button>
+
+      <aside class="filtros" id="filtros" aria-label="Filtros del catálogo">
+        <div class="filtros-cabeza">
+          <h2>Filtros</h2>
+          <button type="button" id="cerrarFiltros" class="filtros-cerrar" aria-label="Cerrar filtros">
+            <Icono nombre="cerrar" tamano={20} />
+          </button>
+        </div>
+
+        <fieldset class="filtro">
+          <legend>Categoría</legend>
+          <label class="filtro-opcion">
+            <input type="radio" name="cat" value="" checked /> <span>Todas</span>
+          </label>
+          {categorias.map((categoria) => (
+            <label class="filtro-opcion">
+              <input type="radio" name="cat" value={categoria.id} />
+              <span>{categoria.nombre}</span>
+            </label>
+          ))}
+        </fieldset>
+
+        <fieldset class="filtro">
+          <legend>Precio</legend>
+          <div class="filtro-precio">
+            <label>
+              <span class="visualmente-oculto">Precio mínimo</span>
+              <input type="number" id="precioMin" name="min" placeholder="Desde" min="0" step="1000" />
+            </label>
+            <label>
+              <span class="visualmente-oculto">Precio máximo</span>
+              <input type="number" id="precioMax" name="max" placeholder="Máximo" min="0" step="1000" />
+            </label>
+          </div>
+          <p class="filtro-precio-nota">Hasta ${precioMax.toLocaleString("es-CO")}</p>
+        </fieldset>
+
+        <fieldset class="filtro">
+          <legend>Marca</legend>
+          <div class="filtro-lista">
+            {marcas.map((marca) => (
+              <label class="filtro-opcion">
+                <input type="checkbox" name="marca" value={marca} /> <span>{marca}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset class="filtro">
+          <legend>Tipo</legend>
+          <div class="filtro-lista">
+            {subcategorias.map((sub) => (
+              <label class="filtro-opcion">
+                <input type="checkbox" name="sub" value={sub} /> <span>{nombreDe(sub)}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset class="filtro">
+          <legend>Otros</legend>
+          <label class="filtro-opcion">
+            <input type="checkbox" name="oferta" value="1" /> <span>Solo en oferta</span>
+          </label>
+          <label class="filtro-opcion">
+            <input type="checkbox" name="disponible" value="1" /> <span>Solo disponibles</span>
+          </label>
+        </fieldset>
+
+        <button type="button" class="boton boton-borde filtros-limpiar" id="limpiarFiltros">
+          Quitar todos los filtros
+        </button>
+      </aside>
+
+      <div class="catalogo-cuerpo">
+        <div class="catalogo-barra">
+          <div class="catalogo-fichas" id="fichasActivas"></div>
+          <label class="catalogo-orden">
+            <span>Ordenar por</span>
+            <select id="ordenar" name="orden">
+              <option value="relevancia">Relevancia</option>
+              <option value="precio-asc">Menor precio</option>
+              <option value="precio-desc">Mayor precio</option>
+              <option value="descuento">Mayor descuento</option>
+              <option value="nombre">Nombre A-Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="catalogoResultados">
+          <GrillaProductos productos={iniciales} prioritarias={5} />
+        </div>
+
+        <div class="catalogo-mas">
+          <button type="button" class="boton boton-borde" id="verMas">Ver más productos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filtros-fondo" id="filtrosFondo" hidden></div>
+</Tienda>

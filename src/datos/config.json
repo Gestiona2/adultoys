@@ -1,0 +1,81 @@
+{
+  "_comentario": "Datos del negocio. Lo que diga PENDIENTE se revisa antes de publicar. Confirmado desde el sitio anterior: WhatsApp, correo, direccion e Instagram. Falta NIT y horario.",
+  "negocio": "Adultoyss",
+  "nombre_largo": "Adultoyss Tienda Erótica",
+  "tagline": "Tu deseo, nuestra misión.",
+  "descripcion_corta": "Tienda erótica en Tocancipá con envío discreto a toda Colombia. Juguetes, lencería, lubricantes y bienestar íntimo, con asesoría por WhatsApp.",
+  "whatsapp": "573102130278",
+  "whatsapp_visible": "+57 310 213 0278",
+  "correo": "adultoyssexshopweb@outlook.com",
+  "ciudad": "Tocancipá",
+  "departamento": "Cundinamarca",
+  "pais": "Colombia",
+  "direccion": "C.C. Milan Plaza, Tocancipá, Cundinamarca",
+  "envio": {
+    "gratis_siempre": true,
+    "gratis_desde": 0,
+    "dias_min": 2,
+    "dias_max": 3,
+    "cobertura": "Toda Colombia",
+    "tyc": "Aplica TyC",
+    "tyc_enlace": "legal/envios",
+    "empaque": "Empaque neutro, sin logos ni nombres del contenido."
+  },
+  "devoluciones_dias": 30,
+  "sedes": [
+    {
+      "id": "milan-plaza",
+      "nombre": "Milan Plaza",
+      "direccion": "C.C. Milan Plaza, Tocancipá, Cundinamarca",
+      "ciudad": "Tocancipá",
+      "telefono": "573102130278",
+      "telefono_visible": "+57 310 213 0278",
+      "horario_semana": "PENDIENTE",
+      "horario_festivos": "PENDIENTE",
+      "lat": 4.966,
+      "lng": -73.913,
+      "_nota_ubicacion": "Coordenadas aproximadas del centro de Tocancipá. Confirmar el pin exacto de Milan Plaza."
+    }
+  ],
+  "puntos_de_venta": 1,
+  "legal": {
+    "nit": "PENDIENTE",
+    "razon_social": "PENDIENTE",
+    "aviso_18": "Sitio exclusivo para mayores de 18 años. Al continuar confirmas que eres mayor de edad.",
+    "verificacion_edad": {
+      "titulo": "¿Eres mayor de edad?",
+      "texto": "Adultoyss es una tienda para adultos. Para entrar debes tener 18 años o más.",
+      "boton_si": "Sí, tengo 18 o más",
+      "boton_no": "No, salir",
+      "nota": "Al entrar aceptas que el contenido es solo para mayores de 18 años."
+    }
+  },
+  "redes": [
+    {
+      "id": "instagram",
+      "nombre": "Instagram",
+      "url": "https://www.instagram.com/adultoyss.sexshop"
+    },
+    {
+      "id": "facebook",
+      "nombre": "Facebook",
+      "url": ""
+    },
+    {
+      "id": "tiktok",
+      "nombre": "TikTok",
+      "url": ""
+    }
+  ],
+  "medicion": {
+    "_nota": "Codigos de medicion. Vacios = no se carga nada de terceros.",
+    "google_analytics": "",
+    "meta_pixel": "",
+    "metricool": ""
+  },
+  "creditos": {
+    "texto": "Sitio web desarrollado por",
+    "nombre": "emp2web",
+    "url": "https://emp2web.com/web-express/"
+  }
+}

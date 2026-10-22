@@ -1,0 +1,72 @@
+---
+/**
+ * Una fotografia del sitio (fachada, interior, equipo). Todo el HTML de fotos
+ * sale de aqui, igual que el logo sale de Logo.astro.
+ *
+ *   <Foto nombre="fotos/fachada-villa-del-prado" alt="Fachada de…" sizes="330px" />
+ *
+ * `nombre` es la ruta dentro de public/img SIN extension ni ancho. Las
+ * versiones las crea tools/preparar-imagenes.mjs y quedan como
+ * sitio/banner-hero-600.webp, sitio/banner-hero-900.webp, etc.
+ *
+ * Lo que hace por su cuenta, para que nadie tenga que acordarse:
+ *  - Lee las medidas reales de la foto al compilar y las pone en width/height.
+ *    Sin ellas la pagina "salta" al cargar la imagen. Al no escribirlas a mano,
+ *    no se pueden desfasar de la foto.
+ *  - Descubre las versiones disponibles y arma el srcset: el celular baja la
+ *    chica (~50 KB) y el computador la grande.
+ *  - Carga diferida por defecto. Solo `prioridad` la pide de inmediato, y va
+ *    para lo primero que se ve: pedirlo en todas haria que compitan entre si.
+ *
+ * Si la foto no existe, la compilacion falla con un mensaje claro: mejor eso
+ * que publicar una imagen rota. tools/validar.py la detecta antes.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
+
+interface Props {
+  nombre: string;
+  alt: string;
+  /** Ancho que ocupa en pantalla, para que el navegador elija version. */
+  sizes?: string;
+  prioridad?: boolean;
+  clase?: string;
+}
+const { nombre, alt, sizes = "100vw", prioridad = false, clase = "" } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const carpeta = path.join(process.cwd(), "public", "img", path.dirname(nombre));
+const archivo = path.basename(nombre);
+const patron = new RegExp(`^${archivo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}-(\\d+)\\.webp$`);
+
+const anchos = (fs.existsSync(carpeta) ? fs.readdirSync(carpeta) : [])
+  .map((f) => patron.exec(f)?.[1])
+  .filter(Boolean)
+  .map(Number)
+  .sort((a, b) => a - b);
+
+if (anchos.length === 0) {
+  throw new Error(
+    `[Foto] no existe la foto "${nombre}" en public/img. ` +
+      `Se prepara con: node tools/preparar-imagenes.mjs --force`
+  );
+}
+
+const url = (ancho: number) => `${base}img/${nombre}-${ancho}.webp`.replace(/\/{2,}/g, "/");
+const mayor = anchos[anchos.length - 1];
+const medidas = await sharp(path.join(carpeta, `${archivo}-${mayor}.webp`)).metadata();
+---
+
+<img
+  class={clase}
+  src={url(mayor)}
+  srcset={anchos.map((a) => `${url(a)} ${a}w`).join(", ")}
+  sizes={sizes}
+  width={medidas.width}
+  height={medidas.height}
+  alt={alt}
+  loading={prioridad ? "eager" : "lazy"}
+  fetchpriority={prioridad ? "high" : "auto"}
+  decoding="async"
+/>

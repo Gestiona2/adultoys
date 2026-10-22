@@ -1,0 +1,446 @@
+[
+ {
+  "id": "vibradores",
+  "nombre": "Vibradores y succionadores",
+  "corto": "Vibradores",
+  "icono": "vibrador",
+  "orden": 1,
+  "descripcion": "Estimulación externa e interna, succionadores y juguetes con app.",
+  "imagen": "sitio/categoria-vibradores",
+  "total": 65,
+  "subcategorias": [
+   {
+    "id": "balas",
+    "nombre": "Balas vibradoras",
+    "original": "BALAS",
+    "total": 7
+   },
+   {
+    "id": "fundas",
+    "nombre": "Fundas",
+    "original": "FUNDAS",
+    "total": 5
+   },
+   {
+    "id": "huevos",
+    "nombre": "Huevos vibradores",
+    "original": "HUEVOS",
+    "total": 4
+   },
+   {
+    "id": "juguetes-app",
+    "nombre": "Juguetes con app",
+    "original": "JUGUETES APP",
+    "total": 5
+   },
+   {
+    "id": "juguete-vibrador",
+    "nombre": "Juguetes y vibradores",
+    "original": "JUGUETE/VIBRADOR",
+    "total": 22
+   },
+   {
+    "id": "masajeador",
+    "nombre": "Masajeadores",
+    "original": "MASAJEADOR",
+    "total": 3
+   },
+   {
+    "id": "masturbadores",
+    "nombre": "Masturbadores",
+    "original": "MASTURBADORES",
+    "total": 2
+   },
+   {
+    "id": "masturbadores-ellos",
+    "nombre": "Masturbadores para él",
+    "original": "MASTURBADORES ELLOS",
+    "total": 8
+   },
+   {
+    "id": "satisfyer",
+    "nombre": "Satisfyer",
+    "original": "SATISFYER",
+    "total": 1
+   },
+   {
+    "id": "similares-satisfyer",
+    "nombre": "Similares a Satisfyer",
+    "original": "SIMILARES SATISFYER",
+    "total": 1
+   },
+   {
+    "id": "succionador",
+    "nombre": "Succionadores",
+    "original": "SUCCIONADOR",
+    "total": 3
+   },
+   {
+    "id": "vibradores-liquidos",
+    "nombre": "Vibradores líquidos",
+    "original": "VIBRADORES LIQUIDOS",
+    "total": 4
+   }
+  ]
+ },
+ {
+  "id": "dildos",
+  "nombre": "Dildos y plugs",
+  "corto": "Dildos y plugs",
+  "icono": "dildo",
+  "orden": 2,
+  "descripcion": "Formas, tamaños y materiales para descubrir qué te gusta.",
+  "imagen": "sitio/categoria-dildos",
+  "total": 46,
+  "subcategorias": [
+   {
+    "id": "arnes",
+    "nombre": "Arneses",
+    "original": "ARNES",
+    "total": 4
+   },
+   {
+    "id": "bolas-anales",
+    "nombre": "Bolas anales",
+    "original": "BOLAS ANALES",
+    "total": 4
+   },
+   {
+    "id": "dildos",
+    "nombre": "Dildos",
+    "original": "DILDOS",
+    "total": 22
+   },
+   {
+    "id": "dildo-manual",
+    "nombre": "Dildos manuales",
+    "original": "DILDO MANUAL",
+    "total": 1
+   },
+   {
+    "id": "plug",
+    "nombre": "Plugs",
+    "original": "PLUG",
+    "total": 15
+   }
+  ]
+ },
+ {
+  "id": "parejas",
+  "nombre": "Para parejas",
+  "corto": "Parejas",
+  "icono": "parejas",
+  "orden": 3,
+  "descripcion": "Juegos, anillos y accesorios para sumar complicidad.",
+  "imagen": "sitio/categoria-parejas",
+  "total": 26,
+  "subcategorias": [
+   {
+    "id": "anillos",
+    "nombre": "Anillos",
+    "original": "ANILLOS",
+    "total": 9
+   },
+   {
+    "id": "juego-mesa",
+    "nombre": "Juegos de mesa",
+    "original": "JUEGO MESA",
+    "total": 17
+   }
+  ]
+ },
+ {
+  "id": "lenceria",
+  "nombre": "Lencería y disfraces",
+  "corto": "Lencería",
+  "icono": "lenceria",
+  "orden": 4,
+  "descripcion": "Lencería, disfraces y medias para sentirte como quieras.",
+  "imagen": "sitio/categoria-lenceria",
+  "total": 209,
+  "subcategorias": [
+   {
+    "id": "antifas",
+    "nombre": "Antifaces",
+    "original": "ANTIFAS",
+    "total": 3
+   },
+   {
+    "id": "diademas-hallowen-tematicas",
+    "nombre": "Diademas Halloween",
+    "original": "DIADEMAS HALLOWEN TEMATICAS",
+    "total": 9
+   },
+   {
+    "id": "disfraz",
+    "nombre": "Disfraces",
+    "original": "DISFRAZ",
+    "total": 52
+   },
+   {
+    "id": "fajas-cuerpo-barby",
+    "nombre": "Fajas",
+    "original": "FAJAS CUERPO BARBY",
+    "total": 1
+   },
+   {
+    "id": "lenceria",
+    "nombre": "Lencería",
+    "original": "LENCERIA",
+    "total": 86
+   },
+   {
+    "id": "lenceria-arnes",
+    "nombre": "Lencería arnés",
+    "original": "LENCERIA ARNES",
+    "total": 7
+   },
+   {
+    "id": "lenceria-hombre",
+    "nombre": "Lencería para hombre",
+    "original": "LENCERIA HOMBRE",
+    "total": 9
+   },
+   {
+    "id": "mallas",
+    "nombre": "Mallas",
+    "original": "MALLAS",
+    "total": 20
+   },
+   {
+    "id": "medias",
+    "nombre": "Medias",
+    "original": "MEDIAS",
+    "total": 4
+   },
+   {
+    "id": "medias-liguero",
+    "nombre": "Medias ligueros",
+    "original": "MEDIAS LIGUERO",
+    "total": 7
+   },
+   {
+    "id": "pantis",
+    "nombre": "Pantis",
+    "original": "PANTIS",
+    "total": 2
+   },
+   {
+    "id": "pijamas-sexys",
+    "nombre": "Pijamas sexys",
+    "original": "PIJAMAS SEXYS",
+    "total": 8
+   },
+   {
+    "id": "traje-de-bano",
+    "nombre": "Trajes de baño",
+    "original": "TRAJE DE BAÑO",
+    "total": 1
+   }
+  ]
+ },
+ {
+  "id": "lubricantes",
+  "nombre": "Lubricantes y cosméticos",
+  "corto": "Lubricantes",
+  "icono": "gota",
+  "orden": 5,
+  "descripcion": "Lubricantes, aceites, feromonas y cuidado íntimo.",
+  "imagen": "sitio/categoria-lubricantes",
+  "total": 120,
+  "subcategorias": [
+   {
+    "id": "comestible",
+    "nombre": "Comestibles",
+    "original": "COMESTIBLE",
+    "total": 12
+   },
+   {
+    "id": "cosmeticos",
+    "nombre": "Cosméticos",
+    "original": "COSMETICOS",
+    "total": 10
+   },
+   {
+    "id": "estrechantes",
+    "nombre": "Estrechantes",
+    "original": "ESTRECHANTES",
+    "total": 1
+   },
+   {
+    "id": "pheromonas",
+    "nombre": "Feromonas",
+    "original": "PHEROMONAS",
+    "total": 17
+   },
+   {
+    "id": "lubricantes",
+    "nombre": "Lubricantes",
+    "original": "LUBRICANTES",
+    "total": 21
+   },
+   {
+    "id": "lubricantes-sen",
+    "nombre": "Lubricantes Sen",
+    "original": "LUBRICANTES SEN",
+    "total": 31
+   },
+   {
+    "id": "lubricantes-anales",
+    "nombre": "Lubricantes anales",
+    "original": "LUBRICANTES ANALES",
+    "total": 14
+   },
+   {
+    "id": "lubricantes-estrechantes",
+    "nombre": "Lubricantes estrechantes",
+    "original": "LUBRICANTES ESTRECHANTES",
+    "total": 5
+   },
+   {
+    "id": "lubricantes-multiorgasmos",
+    "nombre": "Lubricantes multiorgasmos",
+    "original": "LUBRICANTES MULTIORGASMOS",
+    "total": 5
+   },
+   {
+    "id": "multiorgasmos",
+    "nombre": "Multiorgasmos",
+    "original": "MULTIORGASMOS",
+    "total": 1
+   },
+   {
+    "id": "velas",
+    "nombre": "Velas",
+    "original": "VELAS",
+    "total": 3
+   }
+  ]
+ },
+ {
+  "id": "salud",
+  "nombre": "Salud sexual",
+  "corto": "Salud sexual",
+  "icono": "potencia",
+  "orden": 6,
+  "descripcion": "Potenciadores, retardantes y bienestar para tu vida íntima.",
+  "imagen": "sitio/categoria-salud",
+  "total": 43,
+  "subcategorias": [
+   {
+    "id": "potenciadores",
+    "nombre": "Potenciadores",
+    "original": "POTENCIADORES",
+    "total": 27
+   },
+   {
+    "id": "retardantes",
+    "nombre": "Retardantes",
+    "original": "RETARDANTES",
+    "total": 13
+   },
+   {
+    "id": "voluminizadores",
+    "nombre": "Voluminizadores",
+    "original": "VOLUMINIZADORES",
+    "total": 3
+   }
+  ]
+ },
+ {
+  "id": "sado",
+  "nombre": "Sado y fetish",
+  "corto": "Sado",
+  "icono": "esposas",
+  "orden": 7,
+  "descripcion": "Juego de roles, bondage y sensaciones intensas con consentimiento.",
+  "imagen": "sitio/categoria-sado",
+  "total": 8,
+  "subcategorias": [
+   {
+    "id": "sado",
+    "nombre": "Sado",
+    "original": "SADO",
+    "total": 8
+   }
+  ]
+ },
+ {
+  "id": "higiene",
+  "nombre": "Higiene y cuidado",
+  "corto": "Higiene",
+  "icono": "escudo",
+  "orden": 8,
+  "descripcion": "Preservativos, limpieza y accesorios para cuidar tus juguetes.",
+  "imagen": "sitio/categoria-higiene",
+  "total": 21,
+  "subcategorias": [
+   {
+    "id": "higiene",
+    "nombre": "Higiene",
+    "original": "HIGIENE",
+    "total": 15
+   },
+   {
+    "id": "pilas",
+    "nombre": "Pilas",
+    "original": "PILAS",
+    "total": 1
+   },
+   {
+    "id": "preservativos",
+    "nombre": "Preservativos",
+    "original": "PRESERVATIVOS",
+    "total": 4
+   },
+   {
+    "id": "repuestos",
+    "nombre": "Repuestos",
+    "original": "REPUESTOS",
+    "total": 1
+   }
+  ]
+ },
+ {
+  "id": "weed",
+  "nombre": "WEED y accesorios",
+  "corto": "WEED",
+  "icono": "hoja",
+  "orden": 9,
+  "descripcion": "Papeles, pipas y accesorios para tu ritual. Solo mayores de 18.",
+  "imagen": "sitio/categoria-weed",
+  "total": 13,
+  "subcategorias": [
+   {
+    "id": "weed",
+    "nombre": "WEED",
+    "original": "WEED",
+    "total": 13
+   }
+  ]
+ },
+ {
+  "id": "otros",
+  "nombre": "Otros",
+  "corto": "Otros",
+  "icono": "regalo",
+  "orden": 10,
+  "descripcion": "Tarjetas de regalo y accesorios especiales.",
+  "imagen": "sitio/categoria-otros",
+  "total": 3,
+  "subcategorias": [
+   {
+    "id": "tarjeta-de-regalo",
+    "nombre": "Tarjetas de regalo",
+    "original": "TARJETA DE REGALO",
+    "total": 1
+   },
+   {
+    "id": "webcam",
+    "nombre": "Webcam",
+    "original": "WEBCAM",
+    "total": 2
+   }
+  ]
+ }
+]

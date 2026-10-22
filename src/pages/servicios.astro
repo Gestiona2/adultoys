@@ -1,0 +1,73 @@
+---
+/**
+ * Servicios: asesoría, envíos, pagos, cambios y recogida. El texto vive en
+ * src/datos/servicios.json.
+ */
+import Tienda from "../layouts/Tienda.astro";
+import Icono from "../components/Icono.astro";
+import servicios from "../datos/servicios.json";
+import config from "../datos/config.json";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+---
+
+<Tienda
+  titulo="Envíos, pagos y asesoría"
+  descripcion="Envío discreto a toda Colombia, pago contraentrega, asesoría por WhatsApp y cambios dentro de los 30 días."
+  activa="servicios"
+>
+  <div class="container">
+    <header class="pagina-hero">
+      <p class="seccion-etiqueta"><Icono nombre="camion" tamano={14} /> Cómo comprar</p>
+      <h1>Todo claro antes de pedir</h1>
+      <p class="pagina-hero-entrada">
+        Envío estándar gratis, empaque neutro y pago contraentrega. Si algo no encaja,
+        escríbenos: lo resolvemos.
+      </p>
+    </header>
+
+    <div class="servicios-grid">
+      {servicios.servicios.map((servicio, indice) => (
+        <article class="servicio">
+          <div class="servicio-cabeza">
+            <span class="servicio-icono"><Icono nombre={servicio.icono} tamano={22} /></span>
+            <span class="servicio-numero">{String(indice + 1).padStart(2, "0")}</span>
+          </div>
+          <h2>{servicio.titulo}</h2>
+          <p class="servicio-resumen">{servicio.resumen}</p>
+          <p>{servicio.detalle}</p>
+          <ul class="lista-check lista-check-pequena">
+            {servicio.puntos.map((punto) => <li><Icono nombre="escudo" tamano={15} /> {punto}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <section class="servicios-pasos">
+      <header class="seccion-cabeza">
+        <div>
+          <p class="seccion-etiqueta">De principio a fin</p>
+          <h2>Así llega tu pedido</h2>
+        </div>
+      </header>
+      <ol>
+        <li><span>1</span><strong>Eliges</strong><p>Arma tu pedido en la web o pregúntanos por WhatsApp.</p></li>
+        <li><span>2</span><strong>Confirmamos</strong><p>Revisamos disponibilidad, total y forma de pago.</p></li>
+        <li><span>3</span><strong>Empacamos</strong><p>Caja neutra, sin logos ni nombres del contenido.</p></li>
+        <li><span>4</span><strong>Recibes</strong><p>Envío gratis en {config.envio.dias_min}–{config.envio.dias_max} días hábiles o recogida en {config.ciudad}.</p></li>
+      </ol>
+    </section>
+
+    <div class="cierre">
+      <span class="cierre-halo" aria-hidden="true"></span>
+      <div>
+        <h2>¿Te queda una duda?</h2>
+        <p>Escríbenos y te respondemos con calma. También puedes leer las <a href={enlace("legal/envios")}>condiciones de envío</a>.</p>
+      </div>
+      <a class="boton boton-primario" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" tamano={18} /> Preguntar
+      </a>
+    </div>
+  </div>
+</Tienda>

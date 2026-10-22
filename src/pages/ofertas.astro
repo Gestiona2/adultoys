@@ -1,0 +1,52 @@
+---
+/**
+ * Ofertas: todo lo que tiene descuento real, ordenado por cuánto se ahorra en
+ * pesos, no por porcentaje.
+ */
+import Tienda from "../layouts/Tienda.astro";
+import GrillaProductos from "../components/GrillaProductos.astro";
+import BarraOfertas from "../components/BarraOfertas.astro";
+import Icono from "../components/Icono.astro";
+import productos from "../datos/productos.json";
+import { pesos } from "../scripts/formato.js";
+
+const ofertas = productos
+  .filter((p) => !p.oculto && p.descuento)
+  .sort((a, b) => (b.precio_antes - b.precio) - (a.precio_antes - a.precio));
+
+const ahorroTotal = ofertas.reduce((suma, p) => suma + (p.precio_antes - p.precio), 0);
+---
+
+<Tienda
+  titulo="Ofertas"
+  descripcion="Productos con descuento real en Adultoyss. Envío discreto a toda Colombia y pago contraentrega."
+  activa="ofertas"
+>
+  <div class="container">
+    <header class="catalogo-cabeza">
+      <p class="seccion-etiqueta"><Icono nombre="fuego" tamano={14} /> Por tiempo limitado</p>
+      <h1>Ofertas</h1>
+      <p>
+        {ofertas.length > 0
+          ? <>{ofertas.length} productos con descuento · si te los llevas todos ahorras {pesos(ahorroTotal)}</>
+          : "Estamos preparando nuevas ofertas. Mientras tanto, mira la selección de recomendados."}
+      </p>
+    </header>
+
+    {ofertas.length > 0 ? (
+      <>
+        <BarraOfertas cantidad={ofertas.length} enlace={false} />
+        <div class="ofertas-grilla">
+          <GrillaProductos productos={ofertas} prioritarias={5} vacio="No hay ofertas activas en este momento." />
+        </div>
+      </>
+    ) : (
+      <div class="estado-vacio">
+        <span class="estado-vacio-icono"><Icono nombre="regalo" tamano={34} /></span>
+        <h2>Muy pronto</h2>
+        <p>Las ofertas se activan desde el Excel. Cuando marques un precio anterior, el producto aparece aquí automáticamente.</p>
+        <a class="boton boton-primario" href={`${import.meta.env.BASE_URL}catalogo`.replace(/\/{2,}/g, "/")}>Ver el catálogo</a>
+      </div>
+    )}
+  </div>
+</Tienda>

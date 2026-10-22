@@ -1,0 +1,64 @@
+{
+  "servicios": [
+    {
+      "id": "asesoria",
+      "icono": "whatsapp",
+      "titulo": "Asesoría discreta por WhatsApp",
+      "resumen": "Te ayudamos a elegir según lo que buscas, tu experiencia y tu presupuesto.",
+      "detalle": "No necesitas saber el nombre exacto de nada. Cuéntanos qué te da curiosidad y te mostramos opciones con calma, sin preguntas incómodas.",
+      "puntos": [
+        "Respuesta en horario de atención",
+        "Recomendaciones sin compromiso",
+        "Puedes preguntar por materiales, tamaños y cuidados"
+      ]
+    },
+    {
+      "id": "envio",
+      "icono": "camion",
+      "titulo": "Envío nacional con empaque neutro",
+      "resumen": "Llegamos a toda Colombia en 2 a 3 días hábiles después de confirmar el pedido.",
+      "detalle": "El envío estándar es gratis. En zonas de difícil acceso puede aplicar un costo adicional que te informamos antes de despachar. La caja no lleva logos ni nombres del contenido.",
+      "puntos": [
+        "Empaque 100 % discreto",
+        "Guía de seguimiento por WhatsApp",
+        "Envío estándar gratis"
+      ]
+    },
+    {
+      "id": "pago",
+      "icono": "pago",
+      "titulo": "Pago contraentrega o transferencia",
+      "resumen": "Paga cuando recibas o acuerda una transferencia por WhatsApp.",
+      "detalle": "Confirmamos disponibilidad, valor y tiempo de entrega antes de despachar. No pedimos pagos por fuera de los canales oficiales.",
+      "puntos": [
+        "Efectivo contraentrega",
+        "Nequi, Daviplata o transferencia bancaria",
+        "Confirmación previa por WhatsApp"
+      ]
+    },
+    {
+      "id": "cambios",
+      "icono": "historial",
+      "titulo": "Cambios y devoluciones",
+      "resumen": "Tienes 30 días para reportar un producto defectuoso o un error en tu pedido.",
+      "detalle": "Por higiene, los productos íntimos deben estar sin abrir y en su empaque original para cambios por insatisfacción. Si el producto llegó defectuoso o no corresponde, lo asumimos nosotros.",
+      "puntos": [
+        "30 días para reportar",
+        "Producto defectuoso: reposición o devolución",
+        "Te guiamos paso a paso por WhatsApp"
+      ]
+    },
+    {
+      "id": "recogida",
+      "icono": "tienda",
+      "titulo": "Recoge en Tocancipá",
+      "resumen": "Si estás cerca, puedes recoger en C.C. Milan Plaza.",
+      "detalle": "Coordina tu recogida por WhatsApp para que tengamos el pedido listo y puedas pasar sin esperas.",
+      "puntos": [
+        "C.C. Milan Plaza, Tocancipá",
+        "Pedido alistado antes de llegar",
+        "Atención discreta"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+---
+/**
+ * Ventana de mayoría de edad.
+ *
+ * Sale en la primera visita y se recuerda en el navegador. Sin JavaScript no
+ * aparece: el script del <head> es el que la activa, así nunca deja a nadie
+ * frente a una pantalla bloqueada sin salida.
+ */
+import config from "../datos/config.json";
+import Logo from "./Logo.astro";
+
+const textos = config.legal.verificacion_edad;
+---
+
+<div class="edad" id="verificacionEdad" role="dialog" aria-modal="true" aria-labelledby="edadTitulo" aria-describedby="edadTexto">
+  <div class="edad-caja">
+    <Logo alto={46} />
+    <span class="edad-sello">+18</span>
+    <h2 id="edadTitulo">{textos.titulo}</h2>
+    <p id="edadTexto">{textos.texto}</p>
+    <div class="edad-acciones">
+      <button type="button" class="boton boton-primario" id="edadSi">{textos.boton_si}</button>
+      <a class="boton boton-fantasma" href="https://www.google.com/" rel="noopener">{textos.boton_no}</a>
+    </div>
+    <small>{textos.nota}</small>
+  </div>
+</div>
+
+<script>
+  const CLAVE = "adultoyss-mayor-de-edad";
+  const raiz = document.documentElement;
+  const ventana = document.getElementById("verificacionEdad");
+  const si = document.getElementById("edadSi");
+
+  if (raiz.classList.contains("pedir-edad") && ventana && si) {
+    si.focus();
+    si.addEventListener("click", () => {
+      try {
+        localStorage.setItem(CLAVE, "1");
+      } catch {}
+      raiz.classList.remove("pedir-edad");
+    });
+    // El foco no se escapa a la página de atrás mientras la ventana está abierta.
+    ventana.addEventListener("keydown", (evento) => {
+      if (evento.key !== "Tab") return;
+      const enfocables = ventana.querySelectorAll<HTMLElement>("button, a[href]");
+      const primero = enfocables[0];
+      const ultimo = enfocables[enfocables.length - 1];
+      if (evento.shiftKey && document.activeElement === primero) {
+        evento.preventDefault();
+        ultimo.focus();
+      } else if (!evento.shiftKey && document.activeElement === ultimo) {
+        evento.preventDefault();
+        primero.focus();
+      }
+    });
+  }
+</script>

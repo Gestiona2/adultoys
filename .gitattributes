@@ -1,0 +1,12 @@
+# Todo el texto se normaliza a LF, sin importar el sistema operativo.
+* text=auto eol=lf
+
+# Binarios: nunca tocar.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.svg binary
+*.woff2 binary
+*.ico binary
+*.xlsx binary

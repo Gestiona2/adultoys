@@ -1,0 +1,302 @@
+---
+/**
+ * Ventana emergente de promoción relámpago.
+ *
+ * Solo aparece si el catálogo tiene al menos un producto marcado con
+ * promo_flash en true. Si no hay ninguno, no se dibuja nada. Los agotados
+ * nunca entran, aunque tengan la marca.
+ */
+import home from "../datos/home.json";
+import productos from "../datos/productos.json";
+import { pesos } from "../scripts/formato.js";
+import Icono from "./Icono.astro";
+
+interface Producto {
+  slug: string;
+  titulo: string;
+  precio: number;
+  precio_antes: number | null;
+  descuento: number | null;
+  presentacion: string | null;
+  marca: string | null;
+  descripcion?: string | null;
+  imagenes: string[];
+  stock?: boolean | null;
+  promo_flash?: boolean;
+  promo_flash_vence?: string | null;
+  promo_flash_donde?: string | null;
+}
+
+const base = import.meta.env.BASE_URL;
+const textos = home.popup_oferta;
+
+const resumen = (texto?: string | null) => {
+  if (!texto) return "";
+  const limpio = texto.replace(/\s+/g, " ").trim();
+  return limpio.length > 170 ? `${limpio.slice(0, 167).trimEnd()}…` : limpio;
+};
+
+// Formato legible de la vigencia, en hora de Bogota. Se calcula al publicar; si
+// el sitio queda varios dias sin reconstruirse, el script de abajo la sigue
+// ocultando por si sola cuando el reloj del visitante pasa la hora de vencimiento.
+const formatoVence = new Intl.DateTimeFormat("es-CO", {
+  timeZone: "America/Bogota", day: "numeric", month: "long", hour: "numeric", minute: "2-digit",
+});
+const vigenciaTexto = (iso?: string | null) => {
+  if (!iso) return null;
+  const fecha = new Date(iso);
+  if (Number.isNaN(fecha.getTime())) return null;
+  return `${textos.vence_prefijo ?? "Válida hasta"} ${formatoVence.format(fecha)}`;
+};
+
+const yaVencio = (iso?: string | null) => {
+  if (!iso) return false;
+  const fecha = new Date(iso);
+  return !Number.isNaN(fecha.getTime()) && fecha.getTime() <= Date.now();
+};
+
+const items = (productos as Producto[])
+  .filter((producto) =>
+    producto?.promo_flash === true &&
+    producto.stock !== false &&
+    !yaVencio(producto.promo_flash_vence)
+  )
+  .map((producto) => ({
+    ...producto,
+    detalle: `${base}producto/${producto.slug}`.replace(/\/{2,}/g, "/"),
+    foto: `${base}img/${producto.imagenes[0]}`.replace(/\/{2,}/g, "/"),
+    ahorro: producto.precio_antes ? producto.precio_antes - producto.precio : null,
+    resumen: resumen(producto.descripcion),
+    vigencia: vigenciaTexto(producto.promo_flash_vence),
+  }));
+---
+
+{
+  items.length > 0 && (
+    <div class="popup-fondo" id="popupOfertaFondo" role="presentation">
+      <aside
+        class="popup-oferta popup-flash"
+        role="dialog"
+        aria-modal="true"
+        aria-label={textos.etiqueta}
+      >
+        <span class="popup-oferta-etiqueta">{textos.etiqueta}</span>
+        <div class="popup-flash-carrusel">
+          {items.map((producto, indice) => (
+            <article
+              class:list={["popup-flash-pieza", { activa: indice === 0 }]}
+              data-flash-pieza={indice}
+              data-flash-vence={producto.promo_flash_vence ?? ""}
+              role="group"
+              aria-roledescription="promoción"
+              aria-label={`${indice + 1} de ${items.length}`}
+              aria-hidden={indice !== 0}
+            >
+              <a class="popup-flash-foto" href={producto.detalle} aria-label={`${textos.ver_detalle}: ${producto.titulo}`}>
+                {producto.descuento && <span class="ficha-descuento">-{producto.descuento}%</span>}
+                <img
+                  src={producto.foto}
+                  alt={producto.titulo}
+                  width="440"
+                  height="440"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+              <div class="popup-flash-datos">
+                {producto.marca && <span class="ficha-marca">{producto.marca}</span>}
+                <h2 class="ficha-titulo">{producto.titulo}</h2>
+                {producto.presentacion && <p class="ficha-presentacion">{producto.presentacion}</p>}
+                <div class="ficha-precio">
+                  {producto.precio_antes && <s>{pesos(producto.precio_antes)}</s>}
+                  <strong>{pesos(producto.precio)}</strong>
+                  {producto.ahorro && <span class="ficha-ahorro">Ahorras {pesos(producto.ahorro)}</span>}
+                </div>
+                {producto.resumen && <p class="popup-flash-descripcion">{producto.resumen}</p>}
+                <div class="popup-flash-condiciones">
+                  {producto.vigencia && <span class="popup-flash-vigencia">{producto.vigencia}</span>}
+                  {producto.promo_flash_donde && <span class="popup-flash-donde">{producto.promo_flash_donde}</span>}
+                </div>
+                <div class="ficha-acciones">
+                  <a class="boton boton-borde" href={producto.detalle}>{textos.ver_detalle}</a>
+                  <button
+                    type="button"
+                    class="boton boton-primario"
+                    data-agregar={producto.slug}
+                    data-titulo={producto.titulo}
+                    data-precio={producto.precio}
+                    data-imagen={producto.imagenes[0]}
+                  >
+                    <Icono nombre="carrito" tamano={18} /> {textos.pedir}
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {items.length > 1 && (
+          <div class="popup-flash-controles">
+            <button type="button" class="popup-flash-flecha popup-flash-anterior" data-flash-anterior aria-label={textos.anterior}>
+              <Icono nombre="chevron" tamano={20} />
+            </button>
+            <div class="popup-flash-puntos" role="tablist" aria-label={textos.elegir}>
+              {items.map((producto, indice) => (
+                <button
+                  type="button"
+                  role="tab"
+                  class:list={["popup-flash-punto", { activo: indice === 0 }]}
+                  data-flash-punto={indice}
+                  aria-selected={indice === 0}
+                  aria-label={`${producto.titulo}`}
+                />
+              ))}
+            </div>
+            <button type="button" class="popup-flash-flecha" data-flash-siguiente aria-label={textos.siguiente}>
+              <Icono nombre="chevron" tamano={20} />
+            </button>
+          </div>
+        )}
+
+        <button type="button" class="popup-oferta-cerrar" id="popupOfertaCerrar" aria-label={textos.cerrar}>
+          <Icono nombre="cerrar" tamano={18} />
+        </button>
+      </aside>
+    </div>
+  )
+}
+
+{
+  items.length > 0 && (
+    <script>
+      const fondo = document.getElementById("popupOfertaFondo");
+      const cerrar = document.getElementById("popupOfertaCerrar");
+      let piezas = [...document.querySelectorAll("[data-flash-pieza]")];
+      let puntos = [...document.querySelectorAll("[data-flash-punto]")];
+      const anterior = document.querySelector("[data-flash-anterior]");
+      const siguiente = document.querySelector("[data-flash-siguiente]");
+      const clave = "adultoyss-oferta-fecha";
+      const ROTAR_MS = 6000;
+      const movimientoReducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let actual = 0;
+      let temporizador = null;
+
+      const mostrar = (indice) => {
+        actual = (indice + piezas.length) % piezas.length;
+        piezas.forEach((pieza, i) => {
+          const activa = i === actual;
+          pieza.classList.toggle("activa", activa);
+          pieza.setAttribute("aria-hidden", String(!activa));
+        });
+        puntos.forEach((punto, i) => {
+          punto.classList.toggle("activo", i === actual);
+          punto.setAttribute("aria-selected", String(i === actual));
+        });
+      };
+
+      const detener = () => {
+        if (temporizador) clearInterval(temporizador);
+        temporizador = null;
+      };
+
+      const arrancar = () => {
+        if (movimientoReducido || piezas.length < 2) return;
+        detener();
+        temporizador = setInterval(() => mostrar(actual + 1), ROTAR_MS);
+      };
+
+      // Quita del carrusel las piezas cuya vigencia ya paso, sin esperar a que
+      // se vuelva a publicar el sitio. Revisa cada 30 s: sobra para una oferta
+      // que vence en minutos u horas, y no vale la pena revisar mas seguido.
+      const quitarVencidas = () => {
+        const ahora = Date.now();
+        let cambio = false;
+        piezas = piezas.filter((pieza) => {
+          const vence = pieza.dataset.flashVence;
+          if (!vence || new Date(vence).getTime() > ahora) return true;
+          const indice = Number(pieza.dataset.flashPieza);
+          pieza.remove();
+          puntos[indice]?.remove();
+          cambio = true;
+          return false;
+        });
+        if (!cambio) return;
+        if (piezas.length === 0) {
+          cerrarVentana();
+          return;
+        }
+        puntos = [...document.querySelectorAll("[data-flash-punto]")];
+        mostrar(0);
+        arrancar();
+      };
+
+      const HORA_EN_MS = 60 * 60 * 1000;
+
+      const yaVistaEstaHora = () => {
+        try {
+          const vista = Number(localStorage.getItem(clave));
+          return !!vista && Date.now() - vista < HORA_EN_MS;
+        } catch {
+          return false;
+        }
+      };
+
+      const marcarVista = () => {
+        try {
+          localStorage.setItem(clave, String(Date.now()));
+        } catch {
+          /* sin memoria en este navegador: se muestra igual */
+        }
+      };
+
+      const abrir = () => {
+        quitarVencidas();
+        if (piezas.length === 0 || yaVistaEstaHora()) return;
+        marcarVista();
+        fondo.style.display = "flex";
+        arrancar();
+        setInterval(quitarVencidas, 30000);
+      };
+
+      const cerrarVentana = () => {
+        detener();
+        fondo.style.display = "none";
+      };
+
+      cerrar?.addEventListener("click", cerrarVentana);
+      fondo?.addEventListener("click", (evento) => {
+        if (evento.target === fondo) cerrarVentana();
+      });
+      document.addEventListener("keydown", (evento) => {
+        if (evento.key === "Escape" && fondo.style.display === "flex") cerrarVentana();
+      });
+      anterior?.addEventListener("click", () => {
+        mostrar(actual - 1);
+        arrancar();
+      });
+      siguiente?.addEventListener("click", () => {
+        mostrar(actual + 1);
+        arrancar();
+      });
+      puntos.forEach((punto) =>
+        punto.addEventListener("click", () => {
+          mostrar(Number(punto.dataset.flashPunto));
+          arrancar();
+        })
+      );
+      fondo?.addEventListener("mouseenter", detener);
+      fondo?.addEventListener("mouseleave", arrancar);
+      fondo?.addEventListener("focusin", detener);
+      fondo?.addEventListener("focusout", arrancar);
+      document.addEventListener("visibilitychange", () =>
+        document.hidden ? detener() : arrancar()
+      );
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", abrir, { once: true });
+      } else {
+        abrir();
+      }
+    </script>
+  )
+}

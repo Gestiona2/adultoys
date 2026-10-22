@@ -1,0 +1,42 @@
+---
+/**
+ * Índice del blog: guías cortas para elegir mejor.
+ */
+import Tienda from "../../layouts/Tienda.astro";
+import TarjetaBlog from "../../components/TarjetaBlog.astro";
+import Icono from "../../components/Icono.astro";
+import blog from "../../datos/blog.json";
+import config from "../../datos/config.json";
+---
+
+<Tienda
+  titulo="Blog"
+  descripcion="Guías sobre juguetes, lubricantes, cuidados y bienestar íntimo. Información clara, sin tabúes."
+  activa="blog"
+>
+  <div class="container">
+    <header class="pagina-hero">
+      <p class="seccion-etiqueta"><Icono nombre="hoja" tamano={14} /> Sin tabúes</p>
+      <h1>Para leer con calma</h1>
+      <p class="pagina-hero-entrada">
+        Guías cortas para elegir tu primer juguete, cuidar lo que ya tienes y
+        hablar de placer sin pena.
+      </p>
+    </header>
+
+    <div class="blog-grilla blog-grilla-completa">
+      {blog.posts.map((post) => <TarjetaBlog post={post} />)}
+    </div>
+
+    <div class="cierre">
+      <span class="cierre-halo" aria-hidden="true"></span>
+      <div>
+        <h2>¿Prefieres preguntar?</h2>
+        <p>Te ayudamos a elegir según lo que buscas, sin compromiso.</p>
+      </div>
+      <a class="boton boton-primario" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" tamano={18} /> Hablar con alguien
+      </a>
+    </div>
+  </div>
+</Tienda>

@@ -1,0 +1,32 @@
+---
+/**
+ * Página no encontrada. En una tienda lo útil no es disculparse: es dar el
+ * buscador y las categorías para que la persona siga explorando.
+ */
+import Tienda from "../layouts/Tienda.astro";
+import Icono from "../components/Icono.astro";
+import categorias from "../datos/categorias.json";
+const base = import.meta.env.BASE_URL;
+const enlace = (r: string) => `${base}${r}`.replace(/\/{2,}/g, "/");
+---
+<Tienda titulo="Página no encontrada" descripcion="Esta página no existe.">
+  <div class="container">
+    <div class="no-encontrada">
+      <span class="no-encontrada-codigo">404</span>
+      <h1>No encontramos esa página</h1>
+      <p>
+        Puede que el producto ya no esté o que el enlace esté mal escrito. Busca
+        lo que necesitas arriba, o entra por categoría:
+      </p>
+      <div class="no-encontrada-categorias">
+        {categorias.filter((c) => c.id !== "otros").map((c) => (
+          <a href={enlace(`categoria/${c.id}`)}><Icono nombre={c.icono} tamano={17} /> {c.nombre}</a>
+        ))}
+      </div>
+      <div class="no-encontrada-acciones">
+        <a class="boton boton-primario" href={enlace("")}>Volver al inicio</a>
+        <a class="boton boton-fantasma" href={enlace("catalogo")}>Ver el catálogo</a>
+      </div>
+    </div>
+  </div>
+</Tienda>

@@ -1,0 +1,123 @@
+---
+/**
+ * Encabezado de la tienda.
+ *
+ * El buscador ocupa el centro porque es la forma mas rapida de llegar a un
+ * producto cuando no se sabe en que categoria esta. Todo el texto sale de
+ * src/datos/config.json.
+ */
+import config from "../datos/config.json";
+import categorias from "../datos/categorias.json";
+import productos from "../datos/productos.json";
+import Logo from "./Logo.astro";
+import Icono from "./Icono.astro";
+
+const base = import.meta.env.BASE_URL;
+const enlace = (ruta: string) => `${base}${ruta}`.replace(/\/{2,}/g, "/");
+const visibles = productos.filter((p) => !p.oculto);
+const hayOfertas = visibles.some((p) => p.descuento);
+const grupos = [...categorias].sort((a, b) => a.orden - b.orden).filter((c) => c.id !== "otros");
+---
+
+<div class="franja-superior">
+  <div class="container franja-inner">
+    <span class="franja-item franja-oculta-movil">
+      <Icono nombre="camion" tamano={15} />
+      Envío estándar gratis a {config.envio.cobertura} · {config.envio.dias_min}–{config.envio.dias_max} días
+    </span>
+    <span class="franja-item franja-solo-movil">
+      <Icono nombre="camion" tamano={15} />
+      Envío gratis
+    </span>
+    <span class="franja-item franja-oculta-movil">
+      <Icono nombre="discreto" tamano={15} />
+      {config.envio.empaque}
+    </span>
+    <span class="franja-espacio"></span>
+    <a class="franja-item" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener" aria-label={`WhatsApp ${config.whatsapp_visible}`}>
+      <Icono nombre="whatsapp" tamano={15} />
+      <span class="franja-wa-texto">{config.whatsapp_visible}</span>
+    </a>
+    <span class="franja-item franja-edad franja-oculta-movil">+18</span>
+  </div>
+</div>
+
+<header class="cabecera" id="cabecera">
+  <div class="container cabecera-inner">
+    <a href={enlace("")} class="cabecera-logo" aria-label="Ir al inicio de Adultoyss">
+      <Logo alto={64} />
+    </a>
+
+    <form class="buscador" role="search" action={enlace("catalogo")} method="get" id="formBuscador">
+      <label class="visualmente-oculto" for="campoBuscar">Buscar productos</label>
+      <!-- El envoltorio lleva el rol de combobox: aria-expanded no es valido
+           sobre un input de busqueda suelto. -->
+      <div role="combobox" aria-expanded="false" aria-haspopup="listbox"
+           aria-owns="resultadosBuscador" id="cajaBuscador">
+        <input
+          type="search"
+          id="campoBuscar"
+          name="q"
+          class="buscador-campo"
+          placeholder="Busca vibradores, lencería, lubricantes…"
+          autocomplete="off"
+          aria-autocomplete="list"
+          aria-controls="resultadosBuscador"
+        />
+      </div>
+      <button class="buscador-boton" type="submit" aria-label="Buscar">
+        <Icono nombre="buscar" tamano={18} grosor={2.3} />
+      </button>
+      <div class="buscador-resultados" id="resultadosBuscador" role="listbox" data-whatsapp={config.whatsapp} hidden></div>
+    </form>
+
+    <nav class="cabecera-acciones" aria-label="Accesos rápidos">
+      <a href={enlace("favoritos")} class="accion" data-contador="favoritos" aria-label="Mis favoritos">
+        <Icono nombre="corazon" />
+        <span class="accion-texto">Favoritos</span>
+        <span class="accion-globo" hidden></span>
+      </a>
+      <a href={enlace("volver-a-comprar")} class="accion accion-oculta-movil" aria-label="Volver a comprar">
+        <Icono nombre="historial" />
+        <span class="accion-texto">Volver a comprar</span>
+      </a>
+      <button class="accion accion-carrito" type="button" id="abrirCarrito" data-contador="carrito" aria-label="Abrir el carrito">
+        <Icono nombre="carrito" />
+        <span class="accion-texto">Carrito</span>
+        <span class="accion-globo" hidden></span>
+      </button>
+    </nav>
+
+    <button class="boton-menu" type="button" id="abrirMenu" aria-label="Abrir menú" aria-expanded="false">
+      <Icono nombre="menu" tamano={22} />
+    </button>
+  </div>
+</header>
+
+<div class="menu-movil" id="menuMovil">
+  <nav class="menu-movil-inner" aria-label="Menú principal">
+    <p class="menu-movil-titulo">Categorías</p>
+    <div class="menu-movil-grupos">
+      {grupos.map((categoria) => (
+        <a href={enlace(`categoria/${categoria.id}`)}>
+          <Icono nombre={categoria.icono} tamano={18} />
+          {categoria.nombre}
+        </a>
+      ))}
+    </div>
+    <p class="menu-movil-titulo">Tienda</p>
+    <div class="menu-movil-enlaces">
+      <a href={enlace("catalogo")}>Todo el catálogo</a>
+      {hayOfertas && <a href={enlace("ofertas")}>Ofertas</a>}
+      <a href={enlace("sedes")}>Visítanos</a>
+      <a href={enlace("servicios")}>Envíos y pagos</a>
+      <a href={enlace("blog")}>Blog</a>
+      <a href={enlace("nosotros")}>Nosotros</a>
+      <a href={enlace("contacto")}>Contacto</a>
+    </div>
+    <a class="boton boton-whatsapp menu-movil-wa" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noopener">
+      <Icono nombre="whatsapp" tamano={18} />
+      Asesoría por WhatsApp
+    </a>
+  </nav>
+</div>
