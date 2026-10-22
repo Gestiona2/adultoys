@@ -1,9 +1,11 @@
 ---
 /**
- * Carrusel de la portada: tres piezas que rotan solas cada siete segundos y
- * se detienen con el puntero encima o al enfocar con el teclado.
+ * Carrusel de la portada: las piezas rotan solas cada seis segundos. Los
+ * controles van sobre la foto (flechas, puntos con barra de progreso y pausa)
+ * para que se vean sin bajar. Se detiene al enfocar con el teclado o con el
+ * boton de pausa, y en celular se puede deslizar con el dedo.
  *
- * La primera pieza dice que es Adultoyss y que ofrece. Las otras dos llevan a
+ * La primera pieza dice que es Adultoyss y que ofrece. Las demas llevan a
  * una categoria concreta. El contenido sale de src/datos/home.json.
  */
 import home from "../datos/home.json";
@@ -12,6 +14,7 @@ import Icono from "./Icono.astro";
 import Foto from "./Foto.astro";
 
 const base = import.meta.env.BASE_URL;
+const textos = home.carrusel;
 const enlace = (r: string) =>
   r === "whatsapp"
     ? `https://wa.me/${config.whatsapp}`
@@ -64,6 +67,36 @@ const enlace = (r: string) =>
               sizes="(max-width: 900px) 92vw, 520px"
               prioridad={indice === 0}
             />
+            <div class="carrusel-control">
+              <button type="button" class="carrusel-flecha carrusel-flecha-atras" data-mover="-1" aria-label={textos.anterior}>
+                <Icono nombre="flecha" tamano={16} />
+              </button>
+              <div class="carrusel-puntos">
+                {home.banners.map((otro, j) => (
+                  <button
+                    type="button"
+                    class:list={["carrusel-punto", { activo: j === indice }]}
+                    data-ir={j}
+                    aria-label={`${textos.ir_a}: ${otro.etiqueta.toLowerCase()}`}
+                    aria-current={j === indice ? "true" : undefined}
+                  ></button>
+                ))}
+              </div>
+              <button type="button" class="carrusel-flecha" data-mover="1" aria-label={textos.siguiente}>
+                <Icono nombre="flecha" tamano={16} />
+              </button>
+              <button
+                type="button"
+                class="carrusel-pausa"
+                aria-pressed="false"
+                aria-label={textos.pausar}
+                data-pausar={textos.pausar}
+                data-reanudar={textos.reanudar}
+              >
+                <svg class="icono-pausa" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" /></svg>
+                <svg class="icono-play" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+              </button>
+            </div>
           </div>
           <span class="carrusel-flotante carrusel-flotante-arriba">
             <Icono nombre="estrella" tamano={15} />
@@ -78,16 +111,4 @@ const enlace = (r: string) =>
     ))}
   </div>
 
-  <div class="carrusel-puntos" role="tablist" aria-label="Elegir diapositiva">
-    {home.banners.map((banner, indice) => (
-      <button
-        type="button"
-        role="tab"
-        class:list={["carrusel-punto", { activo: indice === 0 }]}
-        data-ir={indice}
-        aria-selected={indice === 0}
-        aria-label={banner.etiqueta}
-      ></button>
-    ))}
-  </div>
 </section>

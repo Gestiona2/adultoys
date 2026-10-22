@@ -16,8 +16,8 @@
       "texto": "Vibradores, succionadores y balas con funciones pensadas para ti. Llegan en empaque neutro.",
       "boton": "Ver vibradores",
       "enlace": "categoria/vibradores",
-      "foto": "sitio/banner-hero-juguetes",
-      "foto_alt": "Colección de juguetes sexuales rosa sobre fondo claro"
+      "foto": "sitio/banner-hero-daily-deals",
+      "foto_alt": "Mano sosteniendo un succionador rosa junto a un vibrador sobre fondo lila"
     },
     {
       "etiqueta": "JUEGO Y COMPLICIDAD",
@@ -27,6 +27,15 @@
       "enlace": "categoria/sado",
       "foto": "sitio/banner-sado",
       "foto_alt": "Arnés, antifaz y esposas de encaje negro sobre fondo rosa"
+    },
+    {
+      "etiqueta": "LENCERÍA Y DISFRACES",
+      "titulo": "Lencería para sentirte como quieras.",
+      "texto": "Babydolls, bodies, conjuntos y disfraces. Pregúntanos por WhatsApp y te ayudamos a elegir.",
+      "boton": "Ver lencería",
+      "enlace": "categoria/lenceria",
+      "foto": "sitio/categoria-lenceria",
+      "foto_alt": "Body de encaje negro con liguero"
     }
   ],
   "marquee": [
@@ -97,5 +106,12 @@
     "anterior": "Ver promoción anterior",
     "siguiente": "Ver promoción siguiente",
     "elegir": "Elegir promoción"
+  },
+  "carrusel": {
+    "anterior": "Imagen anterior",
+    "siguiente": "Imagen siguiente",
+    "pausar": "Pausar carrusel",
+    "reanudar": "Reanudar carrusel",
+    "ir_a": "Ir a"
   }
 }

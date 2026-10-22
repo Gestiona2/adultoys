@@ -360,17 +360,69 @@ body.menu-abierto .flota-wa { display: none; }
   box-shadow: 0 14px 30px -20px #000;
 }
 .carrusel-flotante svg { color: var(--magenta); }
-.carrusel-flotante-arriba { top: 12%; right: 0; }
+.carrusel-flotante-arriba { top: 30%; right: 0; }
 .carrusel-flotante-abajo { bottom: 13%; left: 0; }
-.carrusel-puntos { display: flex; justify-content: center; gap: 7px; padding: 18px 0 0; }
-.carrusel-punto {
-  width: 24px;
-  height: 4px;
+/* Controles arriba de la foto, como las historias: se ven sin bajar incluso
+   en portatiles de 768 px de alto con la barra del navegador. */
+.carrusel-control {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  z-index: 2;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
-  transition: width var(--transicion), background var(--transicion);
+  background: rgba(10, 6, 18, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
-.carrusel-punto.activo { width: 44px; background: var(--degradado); }
+.carrusel-flecha, .carrusel-pausa {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  color: #fff;
+  transition: background var(--transicion);
+}
+.carrusel-flecha:hover, .carrusel-pausa:hover { background: rgba(255, 255, 255, 0.14); }
+.carrusel-flecha-atras svg { transform: scaleX(-1); }
+.carrusel-pausa .icono-play { display: none; }
+.carrusel-pausa[aria-pressed="true"] .icono-pausa { display: none; }
+.carrusel-pausa[aria-pressed="true"] .icono-play { display: block; }
+.carrusel-puntos { display: flex; align-items: center; gap: 6px; padding: 0 4px; }
+/* El area tactil es mas grande que la rayita que se ve. */
+.carrusel-punto {
+  position: relative;
+  width: 18px;
+  height: 34px;
+  transition: width var(--transicion);
+}
+.carrusel-punto::before, .carrusel-punto::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 999px;
+}
+.carrusel-punto::before { right: 0; background: rgba(255, 255, 255, 0.35); }
+.carrusel-punto::after { width: 0; background: var(--degradado); }
+.carrusel-punto.activo { width: 40px; }
+.carrusel-punto.activo::after { width: 100%; }
+/* La barra que se llena marca el tiempo; al terminar, el script pasa a la siguiente. */
+.carrusel-pieza.activa .carrusel-punto.activo::after { animation: carrusel-progreso 6s linear both; }
+.carrusel.pausado .carrusel-punto.activo::after { animation-play-state: paused; }
+@keyframes carrusel-progreso { from { width: 0; } to { width: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  .carrusel-pieza.activa .carrusel-punto.activo::after { animation: none; }
+  .carrusel-pausa { display: none; }
+}
 
 /* ---------------- marquee ---------------- */
 .marquee {
@@ -1232,7 +1284,7 @@ body:has(.barra-pago:not([hidden])) .pie { padding-bottom: 72px; }
   .carrusel-sellos { gap: 10px; font-size: 12px; }
   .carrusel-visual { min-height: 300px; }
   .carrusel-flotante { font-size: 11px; padding: 6px 9px; }
-  .carrusel-flotante-arriba { top: 6%; }
+  .carrusel-flotante-arriba { top: 30%; }
   .carrusel-flotante-abajo { bottom: 5%; }
   .marquee { margin-top: 20px; }
   .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 168px; gap: 10px; }
