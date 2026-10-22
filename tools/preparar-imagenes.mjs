@@ -158,8 +158,11 @@ async function logo() {
     const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
     if (r > 242 && g > 242 && b > 242) data[i + 3] = 0;
   }
+  // Sin el aire transparente de los bordes: el logo se ve mas grande con la
+  // misma altura. Si cambia la proporcion, actualizar src/components/Logo.astro.
   await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
-    .png()
+    .trim({ threshold: 1 })
+    .png({ compressionLevel: 9 })
     .toFile(join(MARCA, "logo-adultoyss.png"));
 
   // Version clara: el gris del logo se vuelve un lila muy claro para que se
@@ -176,7 +179,8 @@ async function logo() {
     }
   }
   await sharp(claro, { raw: { width: info.width, height: info.height, channels: 4 } })
-    .png()
+    .trim({ threshold: 1 })
+    .png({ compressionLevel: 9 })
     .toFile(join(MARCA, "logo-adultoyss-claro.png"));
 }
 

@@ -30,9 +30,11 @@ const recomendados = elegirRecomendados(productos, 8);
 const ofertas = visibles
   .filter((p) => p.descuento)
   .sort((a, b) => (b.precio_antes - b.precio) - (a.precio_antes - a.precio));
+// El mosaico refleja el peso real de cada categoría: las dos con más productos
+// van en grande y la tercera en ancho. Se recalcula solo con cada catálogo.
 const grupos = [...categorias]
-  .sort((a, b) => a.orden - b.orden)
-  .filter((c) => c.id !== "otros");
+  .filter((c) => c.id !== "otros")
+  .sort((a, b) => b.total - a.total || a.orden - b.orden);
 const posts = blog.posts.slice(0, 3);
 ---
 
@@ -73,9 +75,9 @@ const posts = blog.posts.slice(0, 3);
         {grupos.map((categoria, indice) => (
           <a
             href={enlace(`categoria/${categoria.id}`)}
-            class:list={["bento-card", { "bento-grande": indice < 2 }]}
+            class:list={["bento-card", { "bento-grande": indice < 2, "bento-ancha": indice === 2 }]}
           >
-            <Foto nombre={categoria.imagen} alt={`Categoría ${categoria.nombre}`} sizes={indice < 2 ? "(max-width: 860px) 92vw, 440px" : "(max-width: 860px) 46vw, 260px"} />
+            <Foto nombre={categoria.imagen} alt={`Categoría ${categoria.nombre}`} sizes={indice < 3 ? "(max-width: 860px) 92vw, 440px" : "(max-width: 860px) 46vw, 260px"} />
             <span class="bento-velo" aria-hidden="true"></span>
             <span class="bento-contenido">
               <span class="bento-icono"><Icono nombre={categoria.icono} tamano={indice < 2 ? 24 : 19} /></span>

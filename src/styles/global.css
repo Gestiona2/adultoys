@@ -37,7 +37,8 @@
   --magenta-hondo: #d90f7e;
   --violeta: #b45cff;
   --azul: #4d8dff;
-  --cian: #6fe7ff;
+  --cian: #6fe7ff;          /* solo iconos pequeños y foco */
+  --rosa-claro: #ff8fcb;    /* enlaces y textos de acento */
   --verde: #43e0a0;
   --verde-wa: #25d366;
 
@@ -226,7 +227,7 @@ ul, ol { list-style: none; }
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;

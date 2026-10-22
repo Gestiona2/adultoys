@@ -10,10 +10,11 @@ interface Props {
   variante?: "clara" | "normal";
   clase?: string;
 }
-const { alto = 52, variante = "clara", clase = "" } = Astro.props;
+const { alto = 46, variante = "clara", clase = "" } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const src = `${base}img/marca/logo-adultoyss${variante === "clara" ? "-claro" : ""}.png`.replace(/\/{2,}/g, "/");
-const ancho = Math.round((alto * 385) / 214);
+// Proporcion del logo ya recortado (321 x 126 px).
+const ancho = Math.round((alto * 321) / 126);
 ---
 
 <img
