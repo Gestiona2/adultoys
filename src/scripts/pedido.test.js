@@ -48,11 +48,11 @@ test("recoger en tienda no pide direccion en el mensaje", () => {
   const mensaje = armarMensaje(pedido, {
     nombre: "Ana",
     telefono: "3001234567",
-    entrega: "Recoger en Tocancipá",
+    entrega: "Recogida en punto",
     pago: "Acordar por WhatsApp",
   });
   assert.doesNotMatch(mensaje, /Dirección:/);
-  assert.match(mensaje, /Recoger en Tocancipá/);
+  assert.match(mensaje, /Recogida en punto/);
 });
 
 test("el numero de WhatsApp queda con indicativo 57", () => {

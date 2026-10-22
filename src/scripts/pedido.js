@@ -99,7 +99,7 @@ export function armarMensaje(pedido, datos) {
   partes.push(`Entrega: ${datos.entrega || "Envío a domicilio"}`);
   partes.push(`Nombre: ${datos.nombre}`);
   partes.push(`Teléfono: ${datos.telefono}`);
-  if (datos.entrega !== "Recoger en Tocancipá") {
+  if (datos.entrega !== "Recogida en punto") {
     partes.push(`Dirección: ${datos.direccion}`);
     if (datos.ciudad) partes.push(`Ciudad: ${datos.ciudad}`);
     if (datos.barrio) partes.push(`Barrio: ${datos.barrio}`);

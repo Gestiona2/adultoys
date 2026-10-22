@@ -118,7 +118,7 @@ export function montarCarrito() {
 
           <label>¿Cómo lo quieres recibir?
             <select name="entrega" id="campoEntrega">
-              ${["Envío a domicilio", "Recoger en Tocancipá"].map((opcion) => `
+              ${["Envío a domicilio", "Recogida en punto"].map((opcion) => `
                 <option${(previos.entrega || "Envío a domicilio") === opcion ? " selected" : ""}>${opcion}</option>`).join("")}
             </select>
           </label>
@@ -130,7 +130,7 @@ export function montarCarrito() {
             <input name="telefono" required inputmode="tel" autocomplete="tel" placeholder="300 123 4567" value="${escapar(previos.telefono || "")}">
           </label>
 
-          <div data-domicilio${(previos.entrega || "Envío a domicilio") === "Recoger en Tocancipá" ? " hidden" : ""}>
+          <div data-domicilio${(previos.entrega || "Envío a domicilio") === "Recogida en punto" ? " hidden" : ""}>
             <label>Dirección
               <input name="direccion" autocomplete="street-address" placeholder="Cra 6 # 4-12, apto 302" value="${escapar(previos.direccion || "")}">
             </label>
@@ -189,13 +189,13 @@ export function montarCarrito() {
     const campoEntrega = formulario.querySelector("#campoEntrega");
     const bloqueDomicilio = formulario.querySelector("[data-domicilio]");
     campoEntrega?.addEventListener("change", () => {
-      const recoge = campoEntrega.value === "Recoger en Tocancipá";
+      const recoge = campoEntrega.value === "Recogida en punto";
       if (bloqueDomicilio) bloqueDomicilio.hidden = recoge;
       const direccion = formulario.querySelector('[name="direccion"]');
       if (direccion) direccion.required = !recoge;
     });
     const direccion = formulario.querySelector('[name="direccion"]');
-    if (direccion) direccion.required = (previos.entrega || "Envío a domicilio") !== "Recoger en Tocancipá";
+    if (direccion) direccion.required = (previos.entrega || "Envío a domicilio") !== "Recogida en punto";
   }
 
   /* ---------- enviar ---------- */
@@ -205,7 +205,7 @@ export function montarCarrito() {
     const datos = Object.fromEntries(new FormData(formulario));
 
     const faltantes = ["nombre", "telefono"];
-    if (datos.entrega !== "Recoger en Tocancipá") {
+    if (datos.entrega !== "Recogida en punto") {
       faltantes.push("direccion", "ciudad");
     }
     const sinLlenar = faltantes.filter((campo) => !String(datos[campo] || "").trim());
