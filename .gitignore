@@ -16,3 +16,6 @@ insumos/
 
 # Planilla de edición del catálogo: se entrega y se trabaja en local.
 Catalogo-Adultoyss.xlsx
+
+# Catálogo en PDF: se genera con `npm run catalogo` cada vez que cambian precios o productos.
+Catalogo-Adultoyss.pdf

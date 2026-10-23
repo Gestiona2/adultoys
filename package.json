@@ -15,7 +15,8 @@
     "excel": "python3 tools/excel_catalogo.py generar",
     "excel:revisar": "python3 tools/excel_catalogo.py revisar Catalogo-Adultoyss.xlsx",
     "excel:aplicar": "python3 tools/excel_catalogo.py aplicar Catalogo-Adultoyss.xlsx",
-    "imagenes": "node tools/preparar-imagenes.mjs"
+    "imagenes": "node tools/preparar-imagenes.mjs",
+    "catalogo": "python3 tools/catalogo_pdf.py"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.0",
