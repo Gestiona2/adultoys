@@ -67,6 +67,7 @@
       "url": ""
     }
   ],
+  "tema_estacional": "halloween",
   "medicion": {
     "_nota": "Codigos de medicion. Vacios = no se carga nada de terceros.",
     "google_analytics": "",

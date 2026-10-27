@@ -1,0 +1,135 @@
+/* ============================================================================
+   Tema de Halloween. Todo cuelga de `.tema-halloween` (clase en <html> que pone
+   el layout cuando config.json trae "tema_estacional": "halloween"), así que
+   con el campo vacío este archivo no cambia nada.
+   Las ilustraciones: public/img/halloween/ (tools/generar_halloween_web.py).
+   ========================================================================== */
+
+.tema-halloween {
+  /* El degradado de marca pasa de rosa→azul a rosa→naranja. */
+  --degradado: linear-gradient(105deg, #ff2e9a 0%, #f4600c 100%);
+  --halloween: #ff9a3d;
+}
+
+/* ---- color de acento ---- */
+.tema-halloween .seccion-etiqueta { color: var(--halloween); }
+.tema-halloween .seccion-etiqueta svg { display: none; }
+.tema-halloween .seccion-etiqueta::before {
+  content: "";
+  width: 20px;
+  height: 18px;
+  background: var(--hw-calabaza) center / contain no-repeat; /* la ruta la pone el layout, con la base del sitio */
+}
+.tema-halloween .carrusel-etiqueta { color: var(--halloween); border-color: rgba(255, 154, 61, 0.4); background: rgba(255, 154, 61, 0.09); }
+.tema-halloween .carrusel-texto h1 em, .tema-halloween .carrusel-texto h2 em { background: linear-gradient(105deg, #ff9a3d, #ff2e9a); -webkit-background-clip: text; background-clip: text; }
+.tema-halloween .tarjeta:hover { border-color: rgba(255, 154, 61, 0.55); box-shadow: 0 24px 45px -32px rgba(255, 140, 40, 0.55); }
+.tema-halloween .franja-superior {
+  background: linear-gradient(90deg, rgba(255, 122, 26, 0.2), rgba(124, 58, 237, 0.16) 52%, rgba(255, 46, 154, 0.16));
+}
+.tema-halloween .carrusel-pieza {
+  background:
+    radial-gradient(600px 380px at 88% 24%, rgba(255, 122, 26, 0.2), transparent 66%),
+    radial-gradient(520px 400px at 72% 94%, rgba(124, 58, 237, 0.2), transparent 62%),
+    linear-gradient(140deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.01) 42%),
+    var(--superficie);
+}
+.tema-halloween .carrusel-halo { background: conic-gradient(from 220deg, #ff7a1a, #7c3aed, #ff2e9a, #ffb347, #ff7a1a); }
+
+/* ---- luna detrás de la foto del carrusel ---- */
+.hw-luna { position: absolute; z-index: 0; width: 70%; right: -22%; top: -30%; opacity: 0.95; }
+.carrusel-foto { z-index: 1; }
+
+/* ---- capa del carrusel: recortada al tamaño del panel ---- */
+.hw-hero {
+  position: absolute;
+  inset: 0 var(--hw-pad, 20px);
+  overflow: hidden;
+  border-radius: 32px;
+  pointer-events: none;
+  z-index: 6;
+}
+.hw-telarana { position: absolute; width: 190px; height: auto; opacity: 0.85; }
+.hw-telarana-tl { top: 0; left: 0; }
+.hw-telarana-tr { top: 0; right: 0; width: 150px; }
+/* Las arañas cuelgan del borde superior y se mecen sobre su hilo. */
+.hw-hilo { position: absolute; top: 0; display: block; width: 44px; transform-origin: 50% 0; animation: hw-mecer 4.6s ease-in-out infinite; }
+.hw-hilo img { display: block; width: 100%; height: auto; }
+.hw-hilo-1 { left: 51%; }
+.hw-hilo-2 { right: 5%; width: 36px; animation-duration: 3.8s; animation-delay: -1.4s; }
+@keyframes hw-mecer { 0%, 100% { transform: rotate(-3.5deg); } 50% { transform: rotate(3.5deg); } }
+
+.hw-murcielago { position: absolute; width: 54px; height: auto; transform-origin: 50% 50%; animation: hw-aletear 0.5s ease-in-out infinite alternate, hw-deriva 11s ease-in-out infinite; }
+.hw-murcielago-1 { top: 9%; left: 40%; }
+.hw-murcielago-2 { top: 17%; left: 60%; width: 36px; animation-delay: -0.2s, -4s; }
+.hw-murcielago-3 { top: 6%; right: 11%; width: 44px; animation-delay: -0.35s, -7s; }
+@keyframes hw-aletear { from { scale: 1 1; } to { scale: 1 0.55; } }
+@keyframes hw-deriva { 0%, 100% { translate: 0 0; } 50% { translate: 22px 16px; } }
+
+/* La bruja cruza el panel de derecha a izquierda cada rato, por arriba del texto. */
+.hw-bruja {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 170px;
+  height: auto;
+  filter: drop-shadow(0 0 10px rgba(255, 140, 40, 0.65));
+  transform: translateX(110vw) scaleX(-1);
+  animation: hw-vuelo 26s linear infinite;
+}
+@keyframes hw-vuelo {
+  0%, 55% { transform: translate(110vw, 0) scaleX(-1); }
+  60% { transform: translate(90vw, -6px) scaleX(-1); }
+  72% { transform: translate(55vw, 22px) scaleX(-1); }
+  86% { transform: translate(20vw, -8px) scaleX(-1); }
+  100% { transform: translate(-30vw, 10px) scaleX(-1); }
+}
+
+/* ---- pie: calabazas, fantasma y caldero sobre el borde ---- */
+.tema-halloween .pie { position: relative; margin-top: 110px; }
+.hw-pie { position: absolute; left: 0; right: 0; bottom: 100%; pointer-events: none; height: 130px; overflow: hidden; }
+.hw-pie-telarana { position: absolute; bottom: 0; width: 150px; height: auto; opacity: 0.6; }
+.hw-pie-telarana-l { left: 0; }
+.hw-pie-telarana-r { right: 0; }
+.hw-pie-fila { position: absolute; left: 0; right: 0; bottom: -6px; max-width: 980px; margin: 0 auto; padding: 0 20px; display: flex; align-items: flex-end; justify-content: space-around; }
+.hw-calabaza { height: auto; filter: drop-shadow(0 0 16px rgba(255, 140, 40, 0.5)); animation: hw-brillo 3.6s ease-in-out infinite; }
+.hw-calabaza-1 { width: 96px; }
+.hw-calabaza-2 { width: 64px; animation-delay: -1.2s; }
+.hw-calabaza-3 { width: 82px; animation-delay: -2.2s; }
+@keyframes hw-brillo { 0%, 100% { filter: drop-shadow(0 0 12px rgba(255, 140, 40, 0.35)); } 50% { filter: drop-shadow(0 0 24px rgba(255, 170, 60, 0.85)); } }
+.hw-pie-fantasma { width: 62px; height: auto; margin-bottom: 10px; animation: hw-flotar 4s ease-in-out infinite; opacity: 0.95; }
+@keyframes hw-flotar { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+.hw-pie-caldero { width: 88px; height: auto; }
+
+/* ---- ventana de +18 ---- */
+.tema-halloween .edad-caja { border-color: rgba(255, 154, 61, 0.4); box-shadow: var(--sombra), 0 18px 40px -22px rgba(255, 122, 26, 0.7); }
+.edad-calabaza { position: absolute; top: -46px; left: 50%; width: 76px; height: auto; transform: translateX(-50%); filter: drop-shadow(0 0 14px rgba(255, 140, 40, 0.7)); }
+.edad-caja { position: relative; }
+.edad-telarana { position: absolute; top: 0; right: 0; width: 110px; height: auto; border-top-right-radius: var(--radio); pointer-events: none; opacity: 0.8; }
+
+/* ---- celular: menos adornos, mismo ambiente ---- */
+@media (max-width: 860px) {
+  .tema-halloween { --hw-pad: 14px; }
+  .hw-hero { border-radius: 24px; }
+  .hw-telarana { width: 120px; }
+  .hw-telarana-tr { width: 100px; }
+  .hw-hilo-1 { left: auto; right: 4%; width: 30px; }
+  .hw-hilo-2 { display: none; }
+  .hw-murcielago-1, .hw-murcielago-2 { display: none; }
+  .hw-murcielago-3 { top: 2%; right: 24%; width: 34px; }
+  .hw-bruja { width: 120px; }
+  .hw-luna { width: 70%; right: -10%; top: -8%; }
+  .hw-pie { height: 100px; }
+  .hw-calabaza-1 { width: 70px; }
+  .hw-calabaza-2 { width: 48px; }
+  .hw-calabaza-3 { width: 60px; }
+  .hw-pie-fantasma { width: 46px; }
+  .hw-pie-caldero { width: 64px; }
+  .hw-pie-telarana { width: 100px; }
+  .tema-halloween .pie { margin-top: 90px; }
+}
+
+/* ---- menos movimiento ---- */
+@media (prefers-reduced-motion: reduce) {
+  .hw-hilo, .hw-murcielago, .hw-calabaza, .hw-pie-fantasma { animation: none; }
+  .hw-bruja { animation: none; transform: translate(70vw, 0) scaleX(-1); }
+}

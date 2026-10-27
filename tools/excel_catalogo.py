@@ -20,6 +20,7 @@ import json
 import re
 import sys
 from copy import copy
+from datetime import datetime
 from pathlib import Path
 
 from openpyxl import Workbook, load_workbook
@@ -84,7 +85,12 @@ def vence_a_planilla(valor):
 def vence_de_planilla(valor, quien, errores):
     if valor is None or (isinstance(valor, str) and not valor.strip()):
         return None, True
-    texto = str(valor).strip()
+    # Excel convierte "2026-11-30 22:00" en una celda de fecha real al escribirla.
+    # Se acepta tal cual: sin segundos y en hora de Bogotá.
+    if isinstance(valor, datetime):
+        texto = valor.strftime("%Y-%m-%d %H:%M")
+    else:
+        texto = str(valor).strip()
     coincide = VENCE_PLANILLA.match(texto)
     if not coincide:
         errores.append(

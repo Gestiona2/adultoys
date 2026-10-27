@@ -123,6 +123,21 @@ class ExcelCatalogoTest(unittest.TestCase):
         self.assertTrue(p["recomendado"])
         self.assertFalse(p["oculto"])
 
+    def test_vence_acepta_celda_de_fecha_de_excel(self):
+        # Al escribir 2026-11-30 22:00 en Excel, la celda queda como fecha real.
+        from datetime import datetime
+        ec.generar()
+        libro = load_workbook(ec.RUTA_XLSX)
+        hoja = libro["Productos"]
+        fila = self.fila_de(hoja, "bala-afrodita")
+        hoja.cell(fila, 12).value = "SI"
+        hoja.cell(fila, 13).value = datetime(2026, 11, 30, 22, 0)
+        libro.save(ec.RUTA_XLSX)
+
+        self.assertEqual(ec.aplicar(ec.RUTA_XLSX), 0)
+        productos = {p["slug"]: p for p in json.loads(ec.RUTA_JSON.read_text(encoding="utf-8"))}
+        self.assertEqual(productos["bala-afrodita"]["promo_flash_vence"], "2026-11-30T22:00:00-05:00")
+
     def test_precio_cero_oculta_el_producto(self):
         ec.generar()
         libro = load_workbook(ec.RUTA_XLSX)

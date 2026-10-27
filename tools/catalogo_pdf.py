@@ -4,6 +4,7 @@
     python3 tools/catalogo_pdf.py
     python3 tools/catalogo_pdf.py --base https://adultoyss.com/ --salida catalogo.pdf
     python3 tools/catalogo_pdf.py --todos        # incluye los agotados
+    python3 tools/catalogo_pdf.py --tema halloween   # edicion de temporada
 
 Sale con portada, menu por categorias (con enlaces y numero de pagina),
 marcadores del lector de PDF y, en cada producto, un boton que abre su ficha
@@ -62,7 +63,7 @@ def jpeg(origen, ancho_max, calidad=78):
     return destino.as_uri()
 
 
-def construir_html(base, todos):
+def construir_html(base, todos, tema=None):
     config = cargar("config.json")
     categorias = sorted(cargar("categorias.json"), key=lambda c: c["orden"])
     productos = [p for p in cargar("productos.json") if not p["oculto"] and (todos or p["stock"])]
@@ -90,9 +91,16 @@ def construir_html(base, todos):
     inter = (PUBLIC / "fonts/inter-variable.woff2").as_uri()
 
     partes = []
+    hw = None
+    if tema == "halloween":
+        import catalogo_halloween as hw
+        activos = hw.crear_activos(_CARPETA_IMG)
 
     # ---- portada ----
-    partes.append(f"""
+    if hw:
+        partes.append(hw.portada(activos, logo, fecha, len(productos), base, enlace_wa, wa_visible, esc))
+    else:
+      partes.append(f"""
 <section class="portada">
   <img class="portada-foto" src="{portada}" alt="">
   <div class="portada-velo"></div>
@@ -122,6 +130,7 @@ def construir_html(base, todos):
       </a>""")
     partes.append(f"""
 <section class="menu" id="menu">
+  {hw.decoracion_pagina(activos, False) if hw else ""}
   <p class="etiqueta">EXPLORA</p>
   <h2>Menú</h2>
   <p class="menu-texto">Toca una categoría para ir directo a ella. En cada producto, el botón
@@ -159,7 +168,9 @@ def construir_html(base, todos):
           <a class="boton" href="{url_producto(p['slug'])}">Ver en la web <span>→</span></a>
         </div>
       </article>""")
-            cabeza = (f"""<header class="cat-cabeza" id="cat-{esc(c['id'])}">
+            deco = (f'<img class="cat-deco-murci" src="{activos["murcielago"]}" alt="">'
+                    f'<img class="cat-deco" src="{activos["calabaza"]}" alt="">') if hw else ""
+            cabeza = (f"""<header class="cat-cabeza" id="cat-{esc(c['id'])}">{deco}
         <p class="etiqueta">CATEGORÍA</p>
         <h2>{esc(c['nombre'])}</h2>
         <p class="cat-cuenta">{len(lista)} producto{'s' if len(lista) != 1 else ''}</p>
@@ -168,6 +179,7 @@ def construir_html(base, todos):
       </header>""")
             partes.append(f"""
 <section class="pagina{' pagina-primera' if primera else ''}">
+  {hw.decoracion_pagina(activos, (len(partes) + 1) % 2 == 1) if hw else ""}
   <div class="volver"><a href="#menu">↑ Volver al menú</a></div>
   {cabeza}
   <div class="grilla">{''.join(tarjetas)}
@@ -175,7 +187,10 @@ def construir_html(base, todos):
 </section>""")
 
     # ---- contraportada ----
-    partes.append(f"""
+    if hw:
+        partes.append(hw.cierre(activos, logo, base, enlace_wa, wa_visible, esc))
+    else:
+      partes.append(f"""
 <section class="cierre">
   <img class="cierre-logo" src="{logo}" alt="Adultoyss">
   <h2>¿Listo para elegir?</h2>
@@ -187,9 +202,12 @@ def construir_html(base, todos):
 </section>""")
 
     css = CSS.replace("__SORA__", sora).replace("__INTER__", inter)
+    if hw:
+        css += hw.css(activos)
+    titulo = f"Catálogo Adultoyss{' — Edición Halloween' if hw else ''} — {fecha}"
     return f"""<!doctype html>
 <html lang="es"><head><meta charset="utf-8">
-<title>Catálogo Adultoyss — {esc(fecha)}</title>
+<title>{esc(titulo)}</title>
 <meta name="author" content="Adultoyss Tienda Erótica">
 <meta name="description" content="Catálogo de productos de Adultoyss con enlace a cada producto en la web.">
 <style>{css}</style></head>
@@ -298,7 +316,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--base", default="https://demos.emp2web.com/adultoys/",
                     help="direccion publica del sitio; cada boton apunta a <base>/producto/<slug>")
-    ap.add_argument("--salida", default=str(RAIZ / "Catalogo-Adultoyss.pdf"))
+    ap.add_argument("--salida", default=None, help="archivo PDF de salida")
+    ap.add_argument("--tema", choices=["halloween"], default=None,
+                    help="edicion tematica: halloween agrega telaranas, bruja, murcielagos y calabazas")
     ap.add_argument("--todos", action="store_true", help="incluir tambien los agotados")
     args = ap.parse_args()
 
@@ -308,10 +328,13 @@ def main():
         sys.exit("Falta weasyprint: pip install weasyprint")
 
     import tempfile
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    if not args.salida:
+        args.salida = str(RAIZ / ("Catalogo-Adultoyss-Halloween.pdf" if args.tema else "Catalogo-Adultoyss.pdf"))
     global _CARPETA_IMG
     with tempfile.TemporaryDirectory(prefix="catalogo-") as tmp:
         _CARPETA_IMG = Path(tmp)
-        contenido = construir_html(args.base, args.todos)
+        contenido = construir_html(args.base, args.todos, args.tema)
         HTML(string=contenido, base_url=str(RAIZ)).write_pdf(args.salida, optimize_images=True)
     tam = Path(args.salida).stat().st_size / 1_000_000
     print(f"Listo: {args.salida} ({tam:.1f} MB)")

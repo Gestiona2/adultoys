@@ -1,0 +1,49 @@
+---
+/**
+ * Adornos de Halloween. Solo se pintan si config.json trae
+ * "tema_estacional": "halloween"; con el campo vacío no sale nada.
+ *
+ *   <DecoHalloween zona="hero" />   telarañas, arañas, murciélagos y bruja volando
+ *   <DecoHalloween zona="pie" />    calabazas, fantasma y caldero sobre el pie
+ *
+ * Todo es decorativo (aria-hidden, sin eventos) y las animaciones se apagan
+ * si la persona pidió menos movimiento. Las ilustraciones salen de
+ * tools/generar_halloween_web.py.
+ */
+import config from "../datos/config.json";
+
+interface Props {
+  zona: "hero" | "pie";
+}
+const { zona } = Astro.props;
+const activo = (config as { tema_estacional?: string }).tema_estacional === "halloween";
+const base = import.meta.env.BASE_URL;
+const img = (nombre: string) => `${base}img/halloween/${nombre}.svg`.replace(/\/{2,}/g, "/");
+---
+
+{activo && zona === "hero" && (
+  <div class="hw-hero" aria-hidden="true">
+    <img class="hw-telarana hw-telarana-tl" src={img("telarana-tl")} alt="" width="300" height="300" />
+    <img class="hw-telarana hw-telarana-tr" src={img("telarana-tr")} alt="" width="300" height="300" />
+    <span class="hw-hilo hw-hilo-1"><img src={img("arana")} alt="" width="60" height="134" /></span>
+    <span class="hw-hilo hw-hilo-2"><img src={img("arana-corta")} alt="" width="60" height="90" /></span>
+    <img class="hw-murcielago hw-murcielago-1" src={img("murcielago")} alt="" width="100" height="38" />
+    <img class="hw-murcielago hw-murcielago-2" src={img("murcielago")} alt="" width="100" height="38" />
+    <img class="hw-murcielago hw-murcielago-3" src={img("murcielago")} alt="" width="100" height="38" />
+    <img class="hw-bruja" src={img("bruja")} alt="" width="340" height="190" />
+  </div>
+)}
+
+{activo && zona === "pie" && (
+  <div class="hw-pie" aria-hidden="true">
+    <img class="hw-pie-telarana hw-pie-telarana-l" src={img("telarana-bl")} alt="" width="300" height="300" />
+    <img class="hw-pie-telarana hw-pie-telarana-r" src={img("telarana-br")} alt="" width="300" height="300" />
+    <div class="hw-pie-fila">
+      <img class="hw-pie-fantasma" src={img("fantasma")} alt="" width="100" height="130" />
+      <img class="hw-calabaza hw-calabaza-1" src={img("calabaza")} alt="" width="120" height="110" />
+      <img class="hw-calabaza hw-calabaza-2" src={img("calabaza")} alt="" width="120" height="110" />
+      <img class="hw-pie-caldero" src={img("caldero")} alt="" width="140" height="122" />
+      <img class="hw-calabaza hw-calabaza-3" src={img("calabaza")} alt="" width="120" height="110" />
+    </div>
+  </div>
+)}

@@ -12,9 +12,12 @@ import home from "../datos/home.json";
 import config from "../datos/config.json";
 import Icono from "./Icono.astro";
 import Foto from "./Foto.astro";
+import DecoHalloween from "./DecoHalloween.astro";
 
 const base = import.meta.env.BASE_URL;
 const textos = home.carrusel;
+const halloween = config.tema_estacional === "halloween";
+const luna = `${base}img/halloween/luna.svg`.replace(/\/{2,}/g, "/");
 const enlace = (r: string) =>
   r === "whatsapp"
     ? `https://wa.me/${config.whatsapp}`
@@ -58,6 +61,7 @@ const enlace = (r: string) =>
         </div>
 
         <div class="carrusel-visual">
+          {halloween && <img class="hw-luna" src={luna} alt="" aria-hidden="true" width="220" height="220" />}
           <span class="carrusel-halo" aria-hidden="true"></span>
           <span class="carrusel-marco" aria-hidden="true"></span>
           <div class="carrusel-foto">
@@ -110,5 +114,5 @@ const enlace = (r: string) =>
       </article>
     ))}
   </div>
-
+  <DecoHalloween zona="hero" />
 </section>

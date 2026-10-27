@@ -9,6 +9,7 @@ import config from "../datos/config.json";
 import categorias from "../datos/categorias.json";
 import Icono from "./Icono.astro";
 import Logo from "./Logo.astro";
+import DecoHalloween from "./DecoHalloween.astro";
 
 const base = import.meta.env.BASE_URL;
 const enlace = (ruta: string) => `${base}${ruta}`.replace(/\/{2,}/g, "/");
@@ -16,6 +17,7 @@ const anio = new Date().getFullYear();
 ---
 
 <footer class="pie">
+  <DecoHalloween zona="pie" />
   <div class="container pie-grid">
     <div class="pie-col pie-marca">
       <Logo alto={44} />

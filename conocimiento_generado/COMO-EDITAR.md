@@ -101,3 +101,22 @@ No se hace desde la planilla. Hay que:
 5. `npm run verificar`.
 
 Esto lo hace el proveedor, no el dueño.
+
+## Encender o apagar el tema de Halloween
+
+En `src/datos/config.json`, el campo `"tema_estacional"`:
+
+- `"halloween"` → telarañas, arañas, murciélagos, una bruja que cruza la portada, la luna
+  detrás de la foto, calabazas en el pie y colores naranja.
+- `""` (vacío) → el sitio queda como siempre. No se cambia nada más.
+
+Después: `npm run verificar` y publicar. Pasada la temporada se pueden borrar
+`public/img/halloween/` y `src/styles/halloween.css`; nada más los usa.
+
+El catálogo en PDF tiene su propia edición:
+
+```
+python3 tools/catalogo_pdf.py --tema halloween
+```
+
+Sin `--tema` sale el catálogo normal.

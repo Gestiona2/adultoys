@@ -10,10 +10,15 @@ import config from "../datos/config.json";
 import Logo from "./Logo.astro";
 
 const textos = config.legal.verificacion_edad;
+const halloween = config.tema_estacional === "halloween";
+const base = import.meta.env.BASE_URL;
+const deco = (n: string) => `${base}img/halloween/${n}.svg`.replace(/\/{2,}/g, "/");
 ---
 
 <div class="edad" id="verificacionEdad" role="dialog" aria-modal="true" aria-labelledby="edadTitulo" aria-describedby="edadTexto">
   <div class="edad-caja">
+    {halloween && <img class="edad-telarana" src={deco("telarana-tr")} alt="" width="300" height="300" />}
+    {halloween && <img class="edad-calabaza" src={deco("calabaza")} alt="" width="120" height="110" />}
     <Logo alto={42} />
     <span class="edad-sello">+18</span>
     <h2 id="edadTitulo">{textos.titulo}</h2>

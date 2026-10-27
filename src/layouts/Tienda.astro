@@ -8,6 +8,7 @@
  */
 import "../styles/global.css";
 import "../styles/tienda.css";
+import "../styles/halloween.css";
 import config from "../datos/config.json";
 import Header from "../components/Header.astro";
 import SubnavCategorias from "../components/SubnavCategorias.astro";
@@ -72,7 +73,7 @@ const datosEstructurados = {
 ---
 
 <!doctype html>
-<html lang="es" data-base={base}>
+<html lang="es" data-base={base} class={config.tema_estacional ? `tema-${config.tema_estacional}` : undefined} style={config.tema_estacional === "halloween" ? `--hw-calabaza: url("${base}img/halloween/calabaza.svg")` : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

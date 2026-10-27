@@ -18,4 +18,4 @@ insumos/
 Catalogo-Adultoyss.xlsx
 
 # Catálogo en PDF: se genera con `npm run catalogo` cada vez que cambian precios o productos.
-Catalogo-Adultoyss.pdf
+Catalogo-Adultoyss*.pdf
